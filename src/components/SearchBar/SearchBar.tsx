@@ -52,7 +52,11 @@ export class SearchBar extends Component<SearchBarProps, SearchInputState> {
           onChange={this.handleChange}
           value={this.state.value}
         />
-        <Button content="Search" type="submit" />
+        <Button
+          content="Search"
+          type="submit"
+          className="border-gray-300 hover:bg-gray-200 text-gray-300 hover:text-gray-800"
+        />
       </form>
     );
   }

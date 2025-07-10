@@ -9,9 +9,12 @@ interface WithChildren {
 interface WithValue {
   value: string;
 }
-export interface ContainerProps extends WithChildren {
+
+interface WithClasses {
   className?: string;
 }
+
+export interface ContainerProps extends WithChildren, WithClasses {}
 
 export type ErrorBoundaryProps = WithChildren;
 
@@ -30,7 +33,7 @@ export interface SearchInputFieldProps extends WithValue {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface ButtonProps {
+export interface ButtonProps extends WithClasses {
   content: ReactNode;
   type?: ButtonType;
   onClick?: (event: MouseEvent) => void;
