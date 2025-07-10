@@ -42,3 +42,16 @@ export interface ButtonProps extends WithClasses {
 export interface ErrorMessageProps {
   message?: string;
 }
+
+export interface CardListProps {
+  results: string[];
+}
+
+export interface ResultsProps extends CardListProps {
+  isLoading: boolean;
+  error: string | null;
+}
+
+export interface AppState extends ResultsProps {
+  searchTerm: string;
+}
