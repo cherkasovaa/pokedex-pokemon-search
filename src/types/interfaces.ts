@@ -38,3 +38,7 @@ export interface ButtonProps extends WithClasses {
   type?: ButtonType;
   onClick?: (event: MouseEvent) => void;
 }
+
+export interface ErrorMessageProps {
+  message?: string;
+}
