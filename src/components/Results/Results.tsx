@@ -9,7 +9,7 @@ export class Results extends Component<ResultsProps> {
     const { isLoading, error, results } = this.props;
 
     return (
-      <div className="h-full bg-neutral-700 rounded-lg p-4 flex flex-col overflow-y-auto">
+      <div className="h-full p-4 flex flex-col overflow-y-auto">
         <div className="flex-grow">
           {isLoading && <Loader />}
           {error && <ErrorMessage message={error} />}
