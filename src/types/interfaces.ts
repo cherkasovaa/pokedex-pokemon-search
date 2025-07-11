@@ -44,7 +44,7 @@ export interface ErrorMessageProps {
 }
 
 export interface CardListProps {
-  results: string[];
+  results: Pokemon[] | PokemonDetails[];
 }
 
 export interface ResultsProps extends CardListProps {
@@ -54,4 +54,55 @@ export interface ResultsProps extends CardListProps {
 
 export interface AppState extends ResultsProps {
   searchTerm: string;
+}
+
+export interface Pokemon {
+  name: string;
+  url: string;
+}
+
+export interface RawStat {
+  base_stat: number;
+  stat: {
+    name: string;
+  };
+}
+
+export interface PokemonAPIResponse {
+  id: number;
+  name: string;
+  sprites: {
+    front_default: string;
+  };
+  stats: {
+    base_stat: number;
+    stat: {
+      name: string;
+    };
+  }[];
+}
+
+export interface PokemonDetails {
+  id: number;
+  name: string;
+  sprites: {
+    front_default: string;
+  };
+  stats: {
+    base_stat: number;
+    name: string;
+  }[];
+}
+
+export interface PokemonListResponse {
+  results: Pokemon[];
+  count: number;
+}
+
+export interface SimpleCardProps {
+  pokemon: Pokemon;
+}
+
+export interface DetailedCardProps {
+  pokemon: PokemonDetails;
 }
