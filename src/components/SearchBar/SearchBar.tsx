@@ -32,14 +32,11 @@ export class SearchBar extends Component<SearchBarProps, SearchInputState> {
   handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
 
-    const searchTerm = this.state.value.trim();
-    storage.setSearchTerm(searchTerm);
+    const searchTerm = this.state.value.toLowerCase().trim();
 
     if (this.props.onSearch) {
       this.props.onSearch(searchTerm);
     }
-
-    this.setState({ value: '' });
   }
 
   render() {
