@@ -20,6 +20,10 @@ export default class Storage {
   setSearchTerm(value: string): void {
     localStorage.setItem(SEARCH_KEY, value);
   }
+
+  removeSearchTerm(): void {
+    localStorage.removeItem(SEARCH_KEY);
+  }
 }
 
 export const storage = Storage.getInstance();
