@@ -1,69 +1,77 @@
-# React + TypeScript + Vite
+# Pokemon Search App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project description
 
-Currently, two official plugins are available:
+Pokemon Search App is a web application for finding Pokémon, built with React using class components. The application allows users to search for Pokémon by name and view their basic information and stats. This project demonstrates working with the component lifecycle, error handling, API interaction, and state management without external state management libraries.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Key features:
+- Search Pokemon by name
+- Display list of all Pokemon when search is empty
+- Save search query in localStorage
+- Display detailed Pokemon information (image, statistics)
+- Handle API errors with informative messages
+- Loading indicator during request execution
+- Error Boundary for catching critical errors
 
-## Expanding the ESLint configuration
+## Release date
+2025-07-11
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Technology stack
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- PokeAPI
+- ESLint
+- Prettier
+- Husky
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Installation and setup
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+### Prerequisites
+- [Node.js](https://nodejs.org/) (version 18.x or higher)
+- `npm`
+
+### Installing dependencies
+Clone the repository and install all necessary dependencies:
+
+```bash
+git clone https://github.com/cherkasovaa/react.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+```bash
+cd react
+```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+```bash
+npm install
+```
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+#### Run in development mode:
+```bash
+npm run dev
+```
+The application will be available at `http://localhost:5173`. **For proper functionality in the Russian Federation, VPN usage is required.**
+
+#### Build for production:
+```bash
+npm run build
+```
+Files for deployment will be created in the `dist` directory.
+
+#### Preview production build:
+```bash
+npm run preview
+```
+
+#### Code quality checks:
+```bash
+# Run ESLint to find errors
+npm run lint
+```
+
+```bash
+# Automatically fix formatting with Prettier
+npm run format:fix
 ```
