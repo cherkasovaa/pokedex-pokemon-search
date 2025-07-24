@@ -3,7 +3,7 @@ import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import { render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
-vi.mock('@/components/ErrorMessage', () => ({
+vi.mock('@/components', () => ({
   ErrorMessage: ErrorMessageMock,
 }));
 
