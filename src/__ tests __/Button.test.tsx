@@ -2,7 +2,7 @@ import {
   BTN_ERROR_TEXT,
   BTN_SEARCH_TEXT,
 } from '@/__ tests __/utils/mock-constants';
-import { Button } from '@/components/Button';
+import { Button } from '@/components';
 import { render, screen } from '@testing-library/react';
 import userEvent, { type UserEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
