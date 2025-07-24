@@ -2,7 +2,7 @@ import {
   BASE_SEARCH_TERM,
   EMPTY_VALUE,
 } from '@/__ tests __/utils/mock-constants';
-import { SearchInputField } from '@/components/SearchInputField';
+import { SearchInputField } from '@/components';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
