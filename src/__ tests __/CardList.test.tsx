@@ -7,15 +7,15 @@ import {
   DetailedCardMock,
   SimpleCardMock,
 } from '@/__ tests __/utils/mock-data';
-import { CardList } from '@/components/CardList';
+import { CardList } from '@/components';
 import { render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
-vi.mock('@/components/DetailedCard', () => ({
+vi.mock('@/components/DetailedCard/DetailedCard', () => ({
   DetailedCard: DetailedCardMock,
 }));
 
-vi.mock('@/components/SimpleCard', () => ({
+vi.mock('@/components/SimpleCard/SimpleCard', () => ({
   SimpleCard: SimpleCardMock,
 }));
 
