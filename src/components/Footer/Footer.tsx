@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="text-center bg-neutral-800 text-gray-100 py-4 border-t-1 border-t-gray-500/30">
+    <footer className="text-center py-4 border-t-1 border-t-gray-500/30">
       © 2025{' '}
       <a
         href="https://cherkasovaa.vercel.app/"
