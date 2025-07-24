@@ -4,17 +4,17 @@ import {
   ErrorMessageMock,
   LoaderMock,
 } from '@/__ tests __/utils/mock-data';
-import { Results } from '@/components/Results';
+import { Results } from '@/components';
 import { render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
-vi.mock('@/components/Loader', () => ({ Loader: LoaderMock }));
+vi.mock('@/components/Loader/Loader', () => ({ Loader: LoaderMock }));
 
-vi.mock('@/components/ErrorMessage', () => ({
+vi.mock('@/components/ErrorMessage/ErrorMessage', () => ({
   ErrorMessage: ErrorMessageMock,
 }));
 
-vi.mock('@/components/CardList', () => ({ CardList: CardListMock }));
+vi.mock('@/components/CardList/CardList', () => ({ CardList: CardListMock }));
 
 describe('Results component', () => {
   afterEach(() => {
