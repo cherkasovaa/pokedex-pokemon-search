@@ -1,5 +1,5 @@
 import { baseDetailedPokemon } from '@/__ tests __/utils/mock-constants';
-import { DetailedCard } from '@/components/DetailedCard';
+import { DetailedCard } from '@/components';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 
