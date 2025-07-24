@@ -1,4 +1,4 @@
-import { Container } from '@/components/Container';
+import { Container } from '@/components';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 
