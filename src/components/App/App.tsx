@@ -1,4 +1,4 @@
-import { Container, Results, SearchBar } from '@/components';
+import { Results, SearchBar } from '@/components';
 import { pokemonAPI } from '@/services/PokemonAPI';
 import { storage } from '@/services/Storage';
 import type { Pokemon, PokemonDetails } from '@/types/interfaces';
@@ -53,11 +53,9 @@ export const App = () => {
   };
 
   return (
-    <main className="min-h-screen bg-neutral-800 text-gray-100 py-6 flex w-full">
-      <Container className="flex-1 grid grid-rows-[auto_1fr_auto] gap-4">
-        <SearchBar onSearch={handleSearch} />
-        <Results isLoading={isLoading} error={error} results={results} />
-      </Container>
-    </main>
+    <div className="h-full grid grid-rows-[auto_1fr]">
+      <SearchBar onSearch={handleSearch} />
+      <Results isLoading={isLoading} error={error} results={results} />
+    </div>
   );
 };
