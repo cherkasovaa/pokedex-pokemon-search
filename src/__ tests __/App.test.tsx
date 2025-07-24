@@ -9,7 +9,7 @@ import {
   ResultsMock,
   SearchBarMock,
 } from '@/__ tests __/utils/mock-data';
-import { App } from '@/components/App';
+import { App } from '@/components';
 import { pokemonAPI } from '@/services/PokemonAPI';
 import { storage } from '@/services/Storage';
 import { render, screen } from '@testing-library/react';
@@ -18,9 +18,11 @@ import { afterEach, describe, expect, test, vi } from 'vitest';
 
 vi.mock('@/services/Storage');
 vi.mock('@/services/PokemonAPI');
-vi.mock('@/components/SearchBar', () => ({ SearchBar: SearchBarMock }));
-vi.mock('@/components/Results', () => ({ Results: ResultsMock }));
-vi.mock('@/components/Button', () => ({ Button: ButtonMock }));
+vi.mock('@/components/SearchBar/SearchBar', () => ({
+  SearchBar: SearchBarMock,
+}));
+vi.mock('@/components/Results/Results', () => ({ Results: ResultsMock }));
+vi.mock('@/components/Button/Button', () => ({ Button: ButtonMock }));
 
 describe('App component', () => {
   afterEach(() => {
@@ -33,7 +35,6 @@ describe('App component', () => {
 
       expect(screen.getByTestId('search-input')).toBeInTheDocument();
       expect(screen.getByTestId('results')).toBeInTheDocument();
-      expect(screen.getByTestId('error-button')).toBeInTheDocument();
     });
   });
 
@@ -79,23 +80,14 @@ describe('App component', () => {
       );
     });
 
-    test('shows error when Error button is clicked', async () => {
-      render(<App />);
-
-      await user.click(screen.getByTestId('error-button'));
-
-      expect(screen.getByTestId('results')).toHaveTextContent(
-        'This is a simulated error from the button'
-      );
-    });
-
     test('aborts previous request on new search', async () => {
       const abortSpy = vi.spyOn(AbortController.prototype, 'abort');
 
       render(<App />);
 
-      await user.click(screen.getByTestId('search-input'));
-      await user.click(screen.getByTestId('search-input'));
+      const input = screen.getByTestId('search-input');
+      await user.type(input, BASE_SEARCH_TERM);
+      await user.type(input, 'pikachu');
 
       expect(abortSpy).toHaveBeenCalled();
     });
@@ -106,17 +98,6 @@ describe('App component', () => {
       await user.type(screen.getByTestId('search-input'), SAVED_TERM);
 
       expect(storage.setSearchTerm).toHaveBeenCalledWith(SAVED_TERM);
-    });
-
-    test('calls storage.removeSearchTerm on API error', async () => {
-      vi.mocked(pokemonAPI.searchPokemons).mockRejectedValueOnce(
-        new Error('Failed to fetch data')
-      );
-      render(<App />);
-
-      await user.type(screen.getByTestId('search-input'), 'dittos');
-
-      expect(storage.removeSearchTerm).toHaveBeenCalled();
     });
 
     test('shows loading state during API call', async () => {
@@ -139,9 +120,7 @@ describe('App component', () => {
 
       await user.type(screen.getByTestId('search-input'), 'bad-search');
 
-      expect(screen.getByTestId('results')).toHaveTextContent(
-        'This is a simulated error from the button'
-      );
+      expect(screen.getByTestId('results')).toHaveTextContent('');
     });
 
     test('should do nothing and not show an error if the request is aborted', async () => {

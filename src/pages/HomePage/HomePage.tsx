@@ -1,4 +1,4 @@
-import { App } from '@/components/App';
+import { App } from '@/components';
 
 export const HomePage = () => {
   return <App />;
