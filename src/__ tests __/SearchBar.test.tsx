@@ -3,7 +3,7 @@ import {
   EMPTY_VALUE,
   SAVED_TERM,
 } from '@/__ tests __/utils/mock-constants';
-import { SearchBar } from '@/components/SearchBar';
+import { SearchBar } from '@/components';
 import { storage } from '@/services/Storage';
 import { render, screen } from '@testing-library/react';
 import userEvent, { type UserEvent } from '@testing-library/user-event';
