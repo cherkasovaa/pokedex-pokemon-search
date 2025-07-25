@@ -28,11 +28,11 @@ describe('PokemonAPI', () => {
     test('returns all pokemons if searchTerm is empty', async () => {
       const spy = vi
         .spyOn(pokemonAPI, 'getAllPokemons')
-        .mockResolvedValue(mockSimplePokemonList);
+        .mockResolvedValue({ results: mockSimplePokemonList, totalCount: 2 });
 
-      const result = await pokemonAPI.searchPokemons(EMPTY_VALUE);
+      const result = await pokemonAPI.searchPokemons(EMPTY_VALUE, 1, 15);
       expect(spy).toHaveBeenCalled();
-      expect(result).toEqual(mockSimplePokemonList);
+      expect(result).toEqual({ results: mockSimplePokemonList, totalCount: 2 });
     });
 
     test('returns one pokemon if searchTerm is provided', async () => {
@@ -40,9 +40,9 @@ describe('PokemonAPI', () => {
         .spyOn(pokemonAPI, 'getPokemonByName')
         .mockResolvedValue([baseDetailedPokemon]);
 
-      const result = await pokemonAPI.searchPokemons(BASE_SEARCH_TERM);
+      const result = await pokemonAPI.searchPokemons(BASE_SEARCH_TERM, 1, 15);
       expect(spy).toHaveBeenCalled();
-      expect(result).toEqual([baseDetailedPokemon]);
+      expect(result).toEqual({ results: [baseDetailedPokemon], totalCount: 1 });
     });
 
     test('returns empty array on AbortError', async () => {
@@ -50,9 +50,9 @@ describe('PokemonAPI', () => {
         Object.assign(new Error('Aborted'), { name: 'AbortError' })
       );
 
-      const result = await pokemonAPI.searchPokemons(BASE_SEARCH_TERM);
+      const result = await pokemonAPI.searchPokemons(BASE_SEARCH_TERM, 1, 15);
 
-      expect(result).toEqual([]);
+      expect(result).toEqual({ results: [], totalCount: 0 });
     });
 
     test('throws on errors', async () => {
@@ -60,9 +60,9 @@ describe('PokemonAPI', () => {
         new Error('Error message')
       );
 
-      await expect(pokemonAPI.searchPokemons(BASE_SEARCH_TERM)).rejects.toThrow(
-        'Error message'
-      );
+      await expect(
+        pokemonAPI.searchPokemons(BASE_SEARCH_TERM, 1, 15)
+      ).rejects.toThrow('Error message');
     });
   });
 
@@ -70,15 +70,19 @@ describe('PokemonAPI', () => {
     test('fetches with correct URL and returns results', async () => {
       vi.spyOn(global, 'fetch').mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({ results: mockSimplePokemonList }),
+        json: () =>
+          Promise.resolve({ results: mockSimplePokemonList, count: 10 }),
       } as Response);
-      const result = await pokemonAPI.getAllPokemons();
+      const result = await pokemonAPI.getAllPokemons(1, 15);
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/pokemon?limit=20'),
+        expect.stringContaining('/pokemon?limit=15&offset=0'),
         expect.any(Object)
       );
-      expect(result).toEqual(mockSimplePokemonList);
+      expect(result).toEqual({
+        results: mockSimplePokemonList,
+        totalCount: 10,
+      });
     });
 
     test('throws error if response not ok', async () => {
@@ -87,7 +91,7 @@ describe('PokemonAPI', () => {
         status: 500,
       } as Response);
 
-      await expect(pokemonAPI.getAllPokemons()).rejects.toThrow(
+      await expect(pokemonAPI.getAllPokemons(1, 15)).rejects.toThrow(
         'HTTP error! status: 500'
       );
     });

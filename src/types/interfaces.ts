@@ -108,3 +108,10 @@ export interface SimpleCardProps {
 export interface DetailedCardProps {
   pokemon: PokemonDetails;
 }
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  pageLimit: number;
+}

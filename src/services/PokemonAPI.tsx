@@ -7,7 +7,7 @@ import { isPokemonData } from '@/types/typeGuards';
 
 export default class PokemonAPI {
   private static instance: PokemonAPI;
-  private baseURL = 'https://pokeapi.co/api/v2/';
+  private baseURL = 'https://pokeapi.co/api/v2';
 
   static getInstance() {
     if (!PokemonAPI.instance) {
@@ -19,17 +19,25 @@ export default class PokemonAPI {
 
   async searchPokemons(
     searchTerm: string,
+    page = 1,
+    limitPerPage: number,
     signal?: AbortSignal
-  ): Promise<Pokemon[] | PokemonDetails[]> {
+  ): Promise<{ results: Pokemon[] | PokemonDetails[]; totalCount: number }> {
+    console.log('Search term: ', searchTerm);
     try {
-      if (!searchTerm) {
-        return await this.getAllPokemons(signal);
+      if (searchTerm) {
+        const pokemonDetails = await this.getPokemonByName(searchTerm, signal);
+
+        return {
+          results: pokemonDetails,
+          totalCount: 1,
+        };
       }
 
-      return await this.getPokemonByName(searchTerm, signal);
+      return await this.getAllPokemons(page, limitPerPage, signal);
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
-        return [];
+        return { results: [], totalCount: 0 };
       }
 
       console.error('API Error:', error);
@@ -37,17 +45,29 @@ export default class PokemonAPI {
     }
   }
 
-  async getAllPokemons(signal?: AbortSignal): Promise<Pokemon[]> {
-    const response = await fetch(`${this.baseURL}/pokemon?limit=20`, {
-      signal,
-    });
+  async getAllPokemons(
+    page = 1,
+    limitPerPage: number,
+    signal?: AbortSignal
+  ): Promise<{
+    results: Pokemon[];
+    totalCount: number;
+  }> {
+    const offset = (page - 1) * limitPerPage;
+
+    const response = await fetch(
+      `${this.baseURL}/pokemon?limit=${limitPerPage}&offset=${offset}`,
+      {
+        signal,
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data: PokemonListResponse = await response.json();
-    return data.results;
+    return { results: data.results, totalCount: data.count };
   }
 
   async getPokemonByName(

@@ -8,6 +8,7 @@ export { Footer } from './Footer/Footer';
 export { Header } from './Header/Header';
 export { Layout } from './Layout/Layout';
 export { Loader } from './Loader/Loader';
+export { Pagination } from './Pagination/Pagination';
 export { Results } from './Results/Results';
 export { SearchBar } from './SearchBar/SearchBar';
 export { SearchInputField } from './SearchInputField/SearchInputField';
