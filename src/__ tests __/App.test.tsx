@@ -1,28 +1,17 @@
 import {
   BASE_SEARCH_TERM,
   baseSimplePokemon,
-  EMPTY_VALUE,
-  SAVED_TERM,
+  SEARCH_KEY,
 } from '@/__ tests __/utils/mock-constants';
-import {
-  ButtonMock,
-  ResultsMock,
-  SearchBarMock,
-} from '@/__ tests __/utils/mock-data';
+import { ResultsMock } from '@/__ tests __/utils/mock-data';
 import { App } from '@/components';
 import { pokemonAPI } from '@/services/PokemonAPI';
-import { storage } from '@/services/Storage';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
-vi.mock('@/services/Storage');
 vi.mock('@/services/PokemonAPI');
-vi.mock('@/components/SearchBar/SearchBar', () => ({
-  SearchBar: SearchBarMock,
-}));
 vi.mock('@/components/Results/Results', () => ({ Results: ResultsMock }));
-vi.mock('@/components/Button/Button', () => ({ Button: ButtonMock }));
 
 describe('App component', () => {
   afterEach(() => {
@@ -33,7 +22,7 @@ describe('App component', () => {
     test('renders main UI parts', () => {
       render(<App />);
 
-      expect(screen.getByTestId('search-input')).toBeInTheDocument();
+      expect(screen.getByRole('textbox')).toBeInTheDocument();
       expect(screen.getByTestId('results')).toBeInTheDocument();
     });
   });
@@ -42,40 +31,35 @@ describe('App component', () => {
     const user = userEvent.setup();
 
     test('handles search from user input, displays results, and saves to storage', async () => {
-      vi.mocked(storage.getSearchTerm).mockReturnValue(null);
       vi.mocked(pokemonAPI.searchPokemons).mockResolvedValue([
         baseSimplePokemon,
       ]);
 
       render(<App />);
 
-      await user.type(screen.getByTestId('search-input'), BASE_SEARCH_TERM);
+      await user.type(screen.getByRole('textbox'), BASE_SEARCH_TERM);
+      await user.click(screen.getByRole('button'));
 
       expect(pokemonAPI.searchPokemons).toHaveBeenLastCalledWith(
         BASE_SEARCH_TERM,
         expect.any(AbortSignal)
       );
 
-      expect(storage.setSearchTerm).toHaveBeenCalledWith(BASE_SEARCH_TERM);
-    });
-
-    test('calls storage.getSearchTerm and searchPokemons on mount', () => {
-      render(<App />);
-
-      vi.mocked(storage.getSearchTerm).mockReturnValue(null);
-      vi.mocked(pokemonAPI.searchPokemons).mockRejectedValue(EMPTY_VALUE);
+      expect(localStorage.getItem(SEARCH_KEY)).toBe(BASE_SEARCH_TERM);
     });
 
     test('handles search term from localStorage on initial load', () => {
-      vi.mocked(storage.getSearchTerm).mockReturnValue(SAVED_TERM);
+      localStorage.setItem(SEARCH_KEY, BASE_SEARCH_TERM);
+
       vi.mocked(pokemonAPI.searchPokemons).mockResolvedValue([
         baseSimplePokemon,
       ]);
 
       render(<App />);
 
+      expect(screen.getByRole('textbox')).toHaveValue(BASE_SEARCH_TERM);
       expect(pokemonAPI.searchPokemons).toHaveBeenCalledWith(
-        SAVED_TERM,
+        BASE_SEARCH_TERM,
         expect.any(AbortSignal)
       );
     });
@@ -85,19 +69,15 @@ describe('App component', () => {
 
       render(<App />);
 
-      const input = screen.getByTestId('search-input');
-      await user.type(input, BASE_SEARCH_TERM);
+      const input = screen.getByRole('textbox');
+      const button = screen.getByRole('button');
+
+      await user.type(input, 'pika');
+      await user.click(button);
       await user.type(input, 'pikachu');
+      await user.click(button);
 
       expect(abortSpy).toHaveBeenCalled();
-    });
-
-    test('calls storage.setSearchTerm and searchPokemons on update', async () => {
-      render(<App />);
-
-      await user.type(screen.getByTestId('search-input'), SAVED_TERM);
-
-      expect(storage.setSearchTerm).toHaveBeenCalledWith(SAVED_TERM);
     });
 
     test('shows loading state during API call', async () => {
@@ -107,18 +87,18 @@ describe('App component', () => {
 
       render(<App />);
 
-      await user.click(screen.getByTestId('search-input'));
+      await user.click(screen.getByRole('button'));
 
       expect(screen.getByTestId('results')).toHaveTextContent('Loading');
     });
 
     test('shows error message if no any results', async () => {
-      vi.mocked(storage.getSearchTerm).mockReturnValue(null);
       vi.mocked(pokemonAPI.searchPokemons).mockResolvedValue([]);
 
       render(<App />);
 
-      await user.type(screen.getByTestId('search-input'), 'bad-search');
+      await user.type(screen.getByRole('textbox'), 'bad-search');
+      await user.click(screen.getByRole('button'));
 
       expect(screen.getByTestId('results')).toHaveTextContent('');
     });
@@ -127,16 +107,14 @@ describe('App component', () => {
       const abortError = new Error('Aborted');
       abortError.name = 'AbortError';
 
-      vi.mocked(storage.getSearchTerm).mockReturnValue(null);
       vi.mocked(pokemonAPI.searchPokemons).mockRejectedValue(abortError);
 
       render(<App />);
 
-      await user.type(screen.getByTestId('search-input'), BASE_SEARCH_TERM);
+      await user.type(screen.getByRole('textbox'), BASE_SEARCH_TERM);
 
       expect(screen.getByTestId('results')).not.toHaveTextContent('Aborted');
       expect(screen.getByTestId('results')).not.toHaveTextContent('Error');
-      expect(storage.removeSearchTerm).not.toHaveBeenCalled();
     });
   });
 });
