@@ -1,18 +1,18 @@
 import { Results, SearchBar } from '@/components';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { pokemonAPI } from '@/services/PokemonAPI';
-import { storage } from '@/services/Storage';
 import type { Pokemon, PokemonDetails } from '@/types/interfaces';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 export const App = () => {
-  const [searchQuery, setSearchQuery] = useState(storage.getSearchTerm() || '');
+  const [query, setQuery] = useLocalStorage();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<Pokemon[] | PokemonDetails[]>([]);
   const controller = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    handleSearch(searchQuery);
+    handleSearch(query);
     return () => {
       controller.current?.abort();
     };
@@ -27,9 +27,7 @@ export const App = () => {
     const signal = controller.current.signal;
 
     setIsLoading(true);
-    setSearchQuery(term);
-    storage.setSearchTerm(term);
-    console.log('Term to search is ', term);
+    setQuery(term);
 
     try {
       const results = await pokemonAPI.searchPokemons(term, signal);
@@ -52,9 +50,18 @@ export const App = () => {
     }
   };
 
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleSearch(query.trim().toLowerCase());
+  };
+
   return (
     <div className="h-full grid grid-rows-[auto_1fr]">
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar
+        value={query}
+        onChange={setQuery}
+        onSearch={handleSearchSubmit}
+      />
       <Results isLoading={isLoading} error={error} results={results} />
     </div>
   );

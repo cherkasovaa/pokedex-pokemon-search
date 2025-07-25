@@ -1,4 +1,4 @@
-import type { ChangeEvent, MouseEvent, ReactNode } from 'react';
+import type { ChangeEvent, FormEvent, MouseEvent, ReactNode } from 'react';
 
 type ButtonType = 'submit' | 'button';
 
@@ -26,7 +26,9 @@ export interface ErrorBoundaryState {
 export type SearchInputState = WithValue;
 
 export interface SearchBarProps {
-  onSearch?: (searchTerm: string) => void;
+  value: string;
+  onChange: (_term: string) => void;
+  onSearch: (event: FormEvent<HTMLFormElement>) => void;
 }
 
 export interface SearchInputFieldProps extends WithValue {
