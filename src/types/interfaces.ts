@@ -106,7 +106,7 @@ export interface SimpleCardProps {
 }
 
 export interface DetailedCardProps {
-  pokemon: PokemonDetails;
+  pokemon: PokemonDetails | undefined;
   className?: string;
 }
 

@@ -1,9 +1,9 @@
 import { Pagination, Results, SearchBar } from '@/components';
+import { useApi } from '@/hooks/useApi';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { pokemonAPI } from '@/services/PokemonAPI';
-import type { Pokemon, PokemonDetails } from '@/types/interfaces';
 import { APP_PATHS } from '@/types/router/constants';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 
 const ITEMS_PER_PAGE = 16;
@@ -12,47 +12,23 @@ const PAGE_LIMIT = 5;
 export const App = () => {
   const [query, setQuery] = useLocalStorage();
   const [searchTerm, setSearchTerm] = useState(query);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [results, setResults] = useState<Pokemon[] | PokemonDetails[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const controller = useRef<AbortController | null>(null);
-
   const currentPage = Number(searchParams.get('page')) || 1;
+  const memoizedApiCall = useCallback(() => {
+    return pokemonAPI.searchPokemons(searchTerm, currentPage, ITEMS_PER_PAGE);
+  }, [searchTerm, currentPage]);
+
+  const { isLoading, error, data } = useApi(memoizedApiCall);
 
   useEffect(() => {
-    if (controller.current) {
-      controller.current.abort();
+    if (data) {
+      setTotalPages(Math.ceil(data.totalCount / ITEMS_PER_PAGE));
+    } else {
+      setTotalPages(0);
     }
-
-    controller.current = new AbortController();
-    const signal = controller.current.signal;
-
-    setIsLoading(true);
-
-    pokemonAPI
-      .searchPokemons(searchTerm, currentPage, ITEMS_PER_PAGE, signal)
-      .then(({ results, totalCount }) => {
-        if (!signal.aborted) {
-          setResults(results);
-          setTotalPages(Math.ceil(totalCount / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      })
-      .catch((error) => {
-        if (error instanceof Error && error.name === 'AbortError') {
-          return;
-        }
-
-        if (!signal.aborted) {
-          setError(error instanceof Error ? error.message : 'Oops');
-          setResults([]);
-        }
-      })
-      .finally(() => setIsLoading(false));
-  }, [searchTerm, currentPage]);
+  }, [data]);
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -76,9 +52,13 @@ export const App = () => {
         onChange={setQuery}
         onSearch={handleSearchSubmit}
       />
-      <Results isLoading={isLoading} error={error} results={results} />
+      <Results
+        isLoading={isLoading}
+        error={error}
+        results={data?.results || []}
+      />
 
-      {totalPages > 1 && !error && (
+      {totalPages > 1 && !isLoading && !error && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

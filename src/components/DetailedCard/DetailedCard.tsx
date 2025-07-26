@@ -6,6 +6,8 @@ export const DetailedCard = ({
   pokemon,
   className = '',
 }: DetailedCardProps) => {
+  if (!pokemon) return;
+
   const { name, sprites, stats } = pokemon;
 
   return (
