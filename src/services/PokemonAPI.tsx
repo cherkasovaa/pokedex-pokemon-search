@@ -20,13 +20,11 @@ export default class PokemonAPI {
   async searchPokemons(
     searchTerm: string,
     page = 1,
-    limitPerPage: number,
-    signal?: AbortSignal
+    limitPerPage: number
   ): Promise<{ results: Pokemon[] | PokemonDetails[]; totalCount: number }> {
-    console.log('Search term: ', searchTerm);
     try {
       if (searchTerm) {
-        const pokemonDetails = await this.getPokemonByName(searchTerm, signal);
+        const pokemonDetails = await this.getPokemonByName(searchTerm);
 
         return {
           results: pokemonDetails,
@@ -34,12 +32,8 @@ export default class PokemonAPI {
         };
       }
 
-      return await this.getAllPokemons(page, limitPerPage, signal);
+      return await this.getAllPokemons(page, limitPerPage);
     } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        return { results: [], totalCount: 0 };
-      }
-
       console.error('API Error:', error);
       throw error;
     }
@@ -47,8 +41,7 @@ export default class PokemonAPI {
 
   async getAllPokemons(
     page = 1,
-    limitPerPage: number,
-    signal?: AbortSignal
+    limitPerPage: number
   ): Promise<{
     results: Pokemon[];
     totalCount: number;
@@ -56,10 +49,7 @@ export default class PokemonAPI {
     const offset = (page - 1) * limitPerPage;
 
     const response = await fetch(
-      `${this.baseURL}/pokemon?limit=${limitPerPage}&offset=${offset}`,
-      {
-        signal,
-      }
+      `${this.baseURL}/pokemon?limit=${limitPerPage}&offset=${offset}`
     );
 
     if (!response.ok) {
@@ -70,13 +60,8 @@ export default class PokemonAPI {
     return { results: data.results, totalCount: data.count };
   }
 
-  async getPokemonByName(
-    searchTerm: string,
-    signal?: AbortSignal
-  ): Promise<PokemonDetails[]> {
-    const response = await fetch(`${this.baseURL}/pokemon/${searchTerm}`, {
-      signal,
-    });
+  async getPokemonByName(searchTerm: string): Promise<PokemonDetails[]> {
+    const response = await fetch(`${this.baseURL}/pokemon/${searchTerm}`);
 
     if (!response.ok) {
       if (response.status === 404) {

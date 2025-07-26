@@ -45,16 +45,6 @@ describe('PokemonAPI', () => {
       expect(result).toEqual({ results: [baseDetailedPokemon], totalCount: 1 });
     });
 
-    test('returns empty array on AbortError', async () => {
-      vi.spyOn(pokemonAPI, 'getPokemonByName').mockRejectedValue(
-        Object.assign(new Error('Aborted'), { name: 'AbortError' })
-      );
-
-      const result = await pokemonAPI.searchPokemons(BASE_SEARCH_TERM, 1, 15);
-
-      expect(result).toEqual({ results: [], totalCount: 0 });
-    });
-
     test('throws on errors', async () => {
       vi.spyOn(pokemonAPI, 'getPokemonByName').mockRejectedValue(
         new Error('Error message')
@@ -76,8 +66,7 @@ describe('PokemonAPI', () => {
       const result = await pokemonAPI.getAllPokemons(1, 15);
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/pokemon?limit=15&offset=0'),
-        expect.any(Object)
+        expect.stringContaining('/pokemon?limit=15&offset=0')
       );
       expect(result).toEqual({
         results: mockSimplePokemonList,
@@ -108,8 +97,7 @@ describe('PokemonAPI', () => {
       const result = await pokemonAPI.getPokemonByName(BASE_SEARCH_TERM);
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('/pokemon/ditto'),
-        expect.any(Object)
+        expect.stringContaining('/pokemon/ditto')
       );
       expect(result[0]).toEqual(baseDetailedPokemon);
     });
