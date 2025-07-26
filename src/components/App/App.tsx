@@ -1,4 +1,4 @@
-import { Pagination, Results, SearchBar } from '@/components';
+import { ErrorMessage, Pagination, Results, SearchBar } from '@/components';
 import { useApi } from '@/hooks/useApi';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { pokemonAPI } from '@/services/PokemonAPI';
@@ -16,6 +16,7 @@ export const App = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const currentPage = Number(searchParams.get('page')) || 1;
+
   const memoizedApiCall = useCallback(() => {
     return pokemonAPI.searchPokemons(searchTerm, currentPage, ITEMS_PER_PAGE);
   }, [searchTerm, currentPage]);
@@ -52,11 +53,12 @@ export const App = () => {
         onChange={setQuery}
         onSearch={handleSearchSubmit}
       />
-      <Results
-        isLoading={isLoading}
-        error={error}
-        results={data?.results || []}
-      />
+
+      {data?.results ? (
+        <Results isLoading={isLoading} error={error} results={data.results} />
+      ) : (
+        <ErrorMessage message="There is no data to display. Try again" />
+      )}
 
       {totalPages > 1 && !isLoading && !error && (
         <Pagination

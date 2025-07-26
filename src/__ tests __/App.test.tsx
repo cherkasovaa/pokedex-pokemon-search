@@ -15,6 +15,8 @@ describe('App component', () => {
 
   describe('Renders tests', () => {
     test('renders main UI parts', () => {
+      const message = 'There is no data to display. Try again';
+
       vi.mocked(pokemonAPI.searchPokemons).mockResolvedValue({
         results: [],
         totalCount: 0,
@@ -27,7 +29,7 @@ describe('App component', () => {
       );
 
       expect(screen.getByRole('textbox')).toBeInTheDocument();
-      expect(screen.getByTestId('results')).toBeInTheDocument();
+      expect(screen.getByText(message)).toBeInTheDocument();
     });
   });
 
