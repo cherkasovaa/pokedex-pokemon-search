@@ -5,7 +5,8 @@ import { describe, expect, test } from 'vitest';
 describe('ErrorMessage component', () => {
   describe('Rendering Tests', () => {
     test('renders item correctly without props', () => {
-      const defaultMessage = "I've logged the error to the console.";
+      const defaultMessage =
+        'An unexpected error occurred. Please try again later';
 
       render(<ErrorMessage />);
 
