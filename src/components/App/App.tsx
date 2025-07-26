@@ -2,8 +2,9 @@ import { Pagination, Results, SearchBar } from '@/components';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { pokemonAPI } from '@/services/PokemonAPI';
 import type { Pokemon, PokemonDetails } from '@/types/interfaces';
+import { APP_PATHS } from '@/types/router/constants';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
 const ITEMS_PER_PAGE = 16;
 const PAGE_LIMIT = 5;
@@ -16,7 +17,7 @@ export const App = () => {
   const [results, setResults] = useState<Pokemon[] | PokemonDetails[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const navigate = useNavigate();
   const controller = useRef<AbortController | null>(null);
 
   const currentPage = Number(searchParams.get('page')) || 1;
@@ -57,7 +58,10 @@ export const App = () => {
     event.preventDefault();
     const searchTerm = query.trim().toLowerCase();
 
-    setSearchParams({ page: '1' });
+    navigate({
+      pathname: APP_PATHS.HOME,
+    });
+
     setSearchTerm(searchTerm);
   };
 
@@ -74,7 +78,7 @@ export const App = () => {
       />
       <Results isLoading={isLoading} error={error} results={results} />
 
-      {totalPages > 1 && (
+      {totalPages > 1 && !error && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
