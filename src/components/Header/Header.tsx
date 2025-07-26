@@ -1,5 +1,5 @@
 import { APP_ROUTES } from '@/router/routes';
-import { Link } from 'react-router';
+import { NavLink } from 'react-router';
 
 export const Header = () => {
   return (
@@ -8,14 +8,15 @@ export const Header = () => {
         {APP_ROUTES.map((route) => {
           if (route.meta.isShowInNavigation) {
             return (
-              <Link
+              <NavLink
                 key={route.name}
                 to={route.path}
-                className="text-gray-100 hover:text-red-800 duration-300 mx-1.5"
+                className={({ isActive }) => `duration-300 mx-1.5 
+                ${isActive ? 'text-red-800' : 'text-gray-100 hover:text-red-800'}`}
                 aria-label={`Link to the ${route.name} page`}
               >
                 {route.name.toUpperCase()}
-              </Link>
+              </NavLink>
             );
           }
         })}
