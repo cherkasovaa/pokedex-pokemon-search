@@ -3,6 +3,7 @@ export { Button } from './Button/Button';
 export { CardList } from './CardList/CardList';
 export { Container } from './Container/Container';
 export { DetailedCard } from './DetailedCard/DetailedCard';
+export { DetailsPanel } from './DetailsPanel/DetailsPanel';
 export { ErrorMessage } from './ErrorMessage/ErrorMessage';
 export { Footer } from './Footer/Footer';
 export { Header } from './Header/Header';
