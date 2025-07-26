@@ -107,6 +107,7 @@ export interface SimpleCardProps {
 
 export interface DetailedCardProps {
   pokemon: PokemonDetails;
+  className?: string;
 }
 
 export interface PaginationProps {

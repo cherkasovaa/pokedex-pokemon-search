@@ -1,12 +1,16 @@
 import type { DetailedCardProps } from '@/types/interfaces';
+import { cn } from '@/utils/cn';
 import { formatString } from '@/utils/formatString';
 
-export const DetailedCard = ({ pokemon }: DetailedCardProps) => {
+export const DetailedCard = ({
+  pokemon,
+  className = '',
+}: DetailedCardProps) => {
   const { name, sprites, stats } = pokemon;
 
   return (
-    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
-      <div className="max-h-min p-4 text-gray-200 bg-neutral-700 rounded-lg hover:bg-neutral-600 transition-colors">
+    <div className={cn('w-full p-2', className)}>
+      <div className="max-h-min p-4 text-gray-200 rounded-lg bg-neutral-600 transition-colors">
         <div className="flex justify-center mb-2">
           <img
             src={sprites.front_default}
