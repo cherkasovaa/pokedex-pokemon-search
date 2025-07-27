@@ -1,7 +1,7 @@
 export const APP_PATHS = {
   HOME: '/',
-  DETAIL: ':id',
-  ABOUT: 'about',
+  DETAIL: '/details/:id',
+  ABOUT: '/about',
   NOT_FOUND: '*',
 } as const;
 

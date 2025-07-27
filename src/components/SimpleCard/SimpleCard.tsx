@@ -12,7 +12,7 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
     event.stopPropagation();
 
     navigate({
-      pathname: `/${id}`,
+      pathname: `/details/${id}`,
       search: searchParams.toString(),
     });
   };
