@@ -1,31 +1,33 @@
-import { useEffect, useState } from 'react';
+import { apiReducer } from '@/reducers/apiReducer';
+import type { ApiState } from '@/types/api.types';
+import { useEffect, useReducer } from 'react';
 
-interface UseApiState<T> {
-  isLoading: boolean;
-  error: string | null;
-  data: T | null;
-}
+export const useApi = <T>(apiCall: () => Promise<T>): ApiState<T> => {
+  const initialState: ApiState<T> = {
+    isLoading: false,
+    error: null,
+    data: null,
+  };
 
-export const useApi = <T>(apiCall: () => Promise<T>): UseApiState<T> => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState<T | null>(null);
+  const [state, dispatch] = useReducer(apiReducer<T>, initialState);
 
   useEffect(() => {
-    setIsLoading(true);
-    setError(null);
+    dispatch({ type: 'FETCH_START' });
 
     apiCall()
       .then((responseData) => {
-        setData(responseData);
+        dispatch({ type: 'FETCH_SUCCESS', payload: responseData });
       })
       .catch((error) => {
-        setError(
-          error instanceof Error ? error.message : 'An unknown error occurred'
-        );
-      })
-      .finally(() => setIsLoading(false));
+        dispatch({
+          type: 'FETCH_ERROR',
+          payload:
+            error instanceof Error
+              ? error.message
+              : 'An unknown error occurred',
+        });
+      });
   }, [apiCall]);
 
-  return { isLoading, error, data };
+  return state;
 };
