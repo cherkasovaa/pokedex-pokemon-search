@@ -1,17 +1,13 @@
 import { App } from '@/components';
 import { APP_PATHS } from '@/types/router/constants';
-import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router';
 
 export const HomePage = () => {
   const params = useParams();
-  const [showDetails, setShowDetails] = useState<boolean>(!!params.id);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    setShowDetails(!!params.id);
-  }, [params]);
+  const showDetails = !!params.id;
 
   const handleCloseDetails = () => {
     navigate({
