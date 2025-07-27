@@ -1,4 +1,4 @@
-import { App } from '@/components';
+import { PokemonList } from '@/components';
 import { APP_PATHS } from '@/types/router/constants';
 import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router';
 
@@ -19,7 +19,7 @@ export const HomePage = () => {
   return (
     <div className="relative flex">
       <section className="flex-1 px-4">
-        <App />
+        <PokemonList />
       </section>
       {showDetails && (
         <div className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300" />

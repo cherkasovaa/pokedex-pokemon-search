@@ -1,5 +1,5 @@
 import { ResultsMock } from '@/__ tests __/utils/mock-data';
-import { App } from '@/components';
+import { PokemonList } from '@/components';
 import { pokemonAPI } from '@/services/PokemonAPI';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
@@ -24,7 +24,7 @@ describe('App component', () => {
 
       render(
         <MemoryRouter>
-          <App />
+          <PokemonList />
         </MemoryRouter>
       );
 

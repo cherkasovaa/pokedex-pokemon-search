@@ -1,4 +1,3 @@
-export { App } from './App/App';
 export { Button } from './Button/Button';
 export { CardList } from './CardList/CardList';
 export { Container } from './Container/Container';
@@ -10,6 +9,7 @@ export { Header } from './Header/Header';
 export { Layout } from './Layout/Layout';
 export { Loader } from './Loader/Loader';
 export { Pagination } from './Pagination/Pagination';
+export { PokemonList } from './PokemonList/PokemonList';
 export { Results } from './Results/Results';
 export { SearchBar } from './SearchBar/SearchBar';
 export { SearchInputField } from './SearchInputField/SearchInputField';

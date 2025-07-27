@@ -10,7 +10,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 const ITEMS_PER_PAGE = 16;
 const PAGE_LIMIT = 5;
 
-export const App = () => {
+export const PokemonList = () => {
   const [query, setQuery] = useLocalStorage();
   const [searchTerm, setSearchTerm] = useState(query);
   const [totalPages, setTotalPages] = useState(0);
