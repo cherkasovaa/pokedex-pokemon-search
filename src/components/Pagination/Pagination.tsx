@@ -26,6 +26,7 @@ export const Pagination = ({
         onClick={() => onPageChange(currentPage - 1)}
         className={cn(commonClasses, defaultArrowButtonClasses)}
         disabled={currentPage <= 1}
+        aria-label="Previous page"
       >
         ⇦
       </button>
@@ -42,6 +43,7 @@ export const Pagination = ({
             }`
           )}
           disabled={currentPage === item}
+          aria-label={`Page №${item}`}
         >
           {item}
         </button>
@@ -51,6 +53,7 @@ export const Pagination = ({
         onClick={() => onPageChange(currentPage + 1)}
         className={cn(commonClasses, defaultArrowButtonClasses)}
         disabled={currentPage >= totalPages}
+        aria-label="Next page"
       >
         ⇨
       </button>
