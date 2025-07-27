@@ -1,4 +1,5 @@
-import { ErrorMessage, Pagination, Results, SearchBar } from '@/components';
+import { Pagination, Results, SearchBar } from '@/components';
+import { ApiProvider } from '@/context/apiContext';
 import { useApi } from '@/hooks/useApi';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { pokemonAPI } from '@/services/PokemonAPI';
@@ -21,25 +22,23 @@ export const App = () => {
     return pokemonAPI.searchPokemons(searchTerm, currentPage, ITEMS_PER_PAGE);
   }, [searchTerm, currentPage]);
 
-  const { isLoading, error, data } = useApi(memoizedApiCall);
+  const apiState = useApi(memoizedApiCall);
 
   useEffect(() => {
-    if (data) {
-      setTotalPages(Math.ceil(data.totalCount / ITEMS_PER_PAGE));
-    } else {
-      setTotalPages(0);
-    }
-  }, [data]);
+    setTotalPages(
+      apiState.data ? Math.ceil(apiState.data.totalCount / ITEMS_PER_PAGE) : 0
+    );
+  }, [apiState.data]);
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const searchTerm = query.trim().toLowerCase();
 
+    setSearchTerm(searchTerm);
+
     navigate({
       pathname: APP_PATHS.HOME,
     });
-
-    setSearchTerm(searchTerm);
   };
 
   const handlePageChange = (newPage: number) => {
@@ -47,27 +46,25 @@ export const App = () => {
   };
 
   return (
-    <div className="h-full grid grid-rows-[auto_1fr_auto]">
-      <SearchBar
-        value={query}
-        onChange={setQuery}
-        onSearch={handleSearchSubmit}
-      />
-
-      {data?.results ? (
-        <Results isLoading={isLoading} error={error} results={data.results} />
-      ) : (
-        <ErrorMessage message="There is no data to display. Try again" />
-      )}
-
-      {totalPages > 1 && !isLoading && !error && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          pageLimit={PAGE_LIMIT}
+    <ApiProvider value={apiState}>
+      <div className="h-full grid grid-rows-[auto_1fr_auto]">
+        <SearchBar
+          value={query}
+          onChange={setQuery}
+          onSearch={handleSearchSubmit}
         />
-      )}
-    </div>
+
+        <Results />
+
+        {totalPages > 1 && !apiState.isLoading && !apiState.error && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            pageLimit={PAGE_LIMIT}
+          />
+        )}
+      </div>
+    </ApiProvider>
   );
 };

@@ -46,7 +46,7 @@ export interface ErrorMessageProps {
 }
 
 export interface CardListProps {
-  results: Pokemon[] | PokemonDetails[];
+  results: (Pokemon | PokemonDetails)[];
 }
 
 export interface ResultsProps extends CardListProps {
