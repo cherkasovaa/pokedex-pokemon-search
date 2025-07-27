@@ -3,7 +3,10 @@ import { NavLink } from 'react-router';
 
 export const Header = () => {
   return (
-    <header className="text-center py-4 border-b-1 border-b-gray-500/30">
+    <header
+      role="banner"
+      className="text-center py-4 border-b-1 border-b-gray-500/30"
+    >
       <nav>
         {APP_ROUTES.map((route) => {
           if (route.meta.isShowInNavigation) {

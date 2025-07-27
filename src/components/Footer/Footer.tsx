@@ -6,7 +6,10 @@ import {
 
 export const Footer = () => {
   return (
-    <footer className="text-center py-4 border-t-1 border-t-gray-500/30">
+    <footer
+      role="contentinfo"
+      className="text-center py-4 border-t-1 border-t-gray-500/30"
+    >
       © {CREATION_YEAR}{' '}
       <a
         href={PORTFOLIO_WEBSITE_LINK}

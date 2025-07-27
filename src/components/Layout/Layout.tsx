@@ -6,7 +6,7 @@ export const Layout = () => {
     <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
       <Header />
 
-      <main className="flex w-full">
+      <main role="main" className="flex w-full">
         <Container className="size-full">
           <Outlet />
         </Container>
