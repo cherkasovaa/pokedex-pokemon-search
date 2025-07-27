@@ -1,9 +1,9 @@
+import { getPokemonByName } from '@/api/getPokemonByName';
 import { Button } from '@/components/Button/Button';
 import { DetailedCard } from '@/components/DetailedCard/DetailedCard';
 import { ErrorMessage } from '@/components/ErrorMessage/ErrorMessage';
 import { Loader } from '@/components/Loader/Loader';
 import { useApi } from '@/hooks/useApi';
-import { pokemonAPI } from '@/services/PokemonAPI';
 import { useCallback } from 'react';
 import { useOutletContext } from 'react-router';
 
@@ -14,7 +14,7 @@ export const DetailsPanel = () => {
   }>();
 
   const memoizedApiCall = useCallback(() => {
-    return pokemonAPI.getPokemonByName(pokemonId);
+    return getPokemonByName(pokemonId);
   }, [pokemonId]);
 
   const { isLoading, error, data } = useApi(memoizedApiCall);

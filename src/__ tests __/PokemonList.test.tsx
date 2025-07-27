@@ -1,12 +1,14 @@
 import { ResultsMock } from '@/__ tests __/utils/mock-data';
+import { searchPokemon } from '@/api/searchPokemon';
 import { PokemonList } from '@/components';
-import { pokemonAPI } from '@/services/PokemonAPI';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
 vi.mock('@/services/PokemonAPI');
 vi.mock('@/components/Results/Results', () => ({ Results: ResultsMock }));
+
+vi.mock('@/api/searchPokemon');
 
 describe('App component', () => {
   afterEach(() => {
@@ -17,7 +19,7 @@ describe('App component', () => {
     test('renders main UI parts', () => {
       // const message = 'There is no data to display. Try again';
 
-      vi.mocked(pokemonAPI.searchPokemons).mockResolvedValue({
+      vi.mocked(searchPokemon).mockResolvedValue({
         results: [],
         totalCount: 0,
       });

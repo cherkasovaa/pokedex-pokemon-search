@@ -1,8 +1,8 @@
+import { searchPokemon } from '@/api/searchPokemon';
 import { Pagination, Results, SearchBar } from '@/components';
 import { ApiProvider } from '@/context/apiContext';
 import { useApi } from '@/hooks/useApi';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { pokemonAPI } from '@/services/PokemonAPI';
 import { APP_PATHS } from '@/types/router/constants';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
@@ -19,7 +19,7 @@ export const PokemonList = () => {
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const memoizedApiCall = useCallback(() => {
-    return pokemonAPI.searchPokemons(searchTerm, currentPage, ITEMS_PER_PAGE);
+    return searchPokemon(searchTerm, currentPage, ITEMS_PER_PAGE);
   }, [searchTerm, currentPage]);
 
   const apiState = useApi(memoizedApiCall);
