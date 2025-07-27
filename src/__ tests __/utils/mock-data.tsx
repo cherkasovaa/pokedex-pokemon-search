@@ -28,11 +28,13 @@ export const ResultsMock = ({
   </div>
 );
 
-export const ButtonMock = ({ onClick }: { onClick: () => void }) => (
-  <button data-testid="error-button" onClick={onClick}>
-    Error
-  </button>
-);
+export const ButtonMock = ({
+  content,
+  onClick,
+}: {
+  content: string;
+  onClick: () => void;
+}) => <button onClick={onClick}>{content}</button>;
 
 export const DetailedCardMock = ({ pokemon }: { pokemon: PokemonDetails }) => (
   <div data-testid="detailed-card">{pokemon.name}</div>
