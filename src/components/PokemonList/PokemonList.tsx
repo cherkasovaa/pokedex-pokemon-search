@@ -4,7 +4,7 @@ import { ApiProvider } from '@/context/apiContext';
 import { useApi } from '@/hooks/useApi';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { APP_PATHS } from '@/types/router/constants';
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { useCallback, useMemo, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 
 const ITEMS_PER_PAGE = 16;
@@ -13,7 +13,6 @@ const PAGE_LIMIT = 5;
 export const PokemonList = () => {
   const [query, setQuery] = useLocalStorage();
   const [searchTerm, setSearchTerm] = useState(query);
-  const [totalPages, setTotalPages] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const currentPage = Number(searchParams.get('page')) || 1;
@@ -24,10 +23,10 @@ export const PokemonList = () => {
 
   const apiState = useApi(memoizedApiCall);
 
-  useEffect(() => {
-    setTotalPages(
-      apiState.data ? Math.ceil(apiState.data.totalCount / ITEMS_PER_PAGE) : 0
-    );
+  const totalPages = useMemo(() => {
+    return apiState.data
+      ? Math.ceil(apiState.data.totalCount / ITEMS_PER_PAGE)
+      : 0;
   }, [apiState.data]);
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
