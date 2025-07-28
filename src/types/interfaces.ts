@@ -1,4 +1,4 @@
-import type { ChangeEvent, MouseEvent, ReactNode } from 'react';
+import type { ChangeEvent, FormEvent, MouseEvent, ReactNode } from 'react';
 
 type ButtonType = 'submit' | 'button';
 
@@ -26,7 +26,9 @@ export interface ErrorBoundaryState {
 export type SearchInputState = WithValue;
 
 export interface SearchBarProps {
-  onSearch?: (searchTerm: string) => void;
+  value: string;
+  onChange: (_term: string) => void;
+  onSearch: (event: FormEvent<HTMLFormElement>) => void;
 }
 
 export interface SearchInputFieldProps extends WithValue {
@@ -44,7 +46,7 @@ export interface ErrorMessageProps {
 }
 
 export interface CardListProps {
-  results: Pokemon[] | PokemonDetails[];
+  results: (Pokemon | PokemonDetails)[];
 }
 
 export interface ResultsProps extends CardListProps {
@@ -104,5 +106,13 @@ export interface SimpleCardProps {
 }
 
 export interface DetailedCardProps {
-  pokemon: PokemonDetails;
+  pokemon: PokemonDetails | undefined;
+  className?: string;
+}
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  pageLimit: number;
 }

@@ -1,21 +1,27 @@
-import { CardList } from '@/components/CardList';
-import { ErrorMessage } from '@/components/ErrorMessage';
-import { Loader } from '@/components/Loader';
-import type { ResultsProps } from '@/types/interfaces';
-import { Component } from 'react';
+import { CardList, ErrorMessage, Loader } from '@/components/';
+import { useApiContext } from '@/context/apiContext';
 
-export class Results extends Component<ResultsProps> {
-  render() {
-    const { isLoading, error, results } = this.props;
+export const Results = () => {
+  const { isLoading, error, data } = useApiContext();
 
-    return (
-      <div className="h-full p-4 flex flex-col overflow-y-auto">
-        <div className="flex-grow">
-          {isLoading && <Loader />}
-          {error && <ErrorMessage message={error} />}
-          {!isLoading && !error && <CardList results={results} />}
-        </div>
+  const results = data?.results;
+
+  return (
+    <div className="h-full p-4 flex flex-col overflow-hidden">
+      <div className="flex-grow">
+        {isLoading && <Loader />}
+        {error && <ErrorMessage message={error} />}
+
+        {!isLoading && !error && results?.length === 0 && (
+          <p className="text-2xl text-gray-300 text-center">
+            There is no data to display. Try again
+          </p>
+        )}
+
+        {!isLoading && !error && results?.length && (
+          <CardList results={results} />
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
