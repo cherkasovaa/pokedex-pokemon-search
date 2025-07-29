@@ -1,4 +1,5 @@
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
+import { ThemeProvider } from '@/context/theme/ThemeProvider';
 import { AppRouter } from '@/router/AppRouter';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -16,9 +17,11 @@ if (!root) {
 createRoot(root).render(
   <StrictMode>
     <BrowserRouter>
-      <ErrorBoundary>
-        <AppRouter />
-      </ErrorBoundary>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <AppRouter />
+        </ErrorBoundary>
+      </ThemeProvider>
     </BrowserRouter>
   </StrictMode>
 );
