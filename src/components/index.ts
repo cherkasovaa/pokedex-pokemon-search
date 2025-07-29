@@ -14,3 +14,4 @@ export { Results } from './Results/Results';
 export { SearchBar } from './SearchBar/SearchBar';
 export { SearchInputField } from './SearchInputField/SearchInputField';
 export { SimpleCard } from './SimpleCard/SimpleCard';
+export { ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher';
