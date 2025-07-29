@@ -7,7 +7,7 @@ export const Layout = () => {
       <Header />
 
       <main role="main" className="flex w-full">
-        <Container className="size-full">
+        <Container className="py-4 size-full">
           <Outlet />
         </Container>
       </main>
