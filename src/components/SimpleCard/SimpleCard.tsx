@@ -1,10 +1,15 @@
+import { useSelectedStore } from '@/store/store';
 import type { SimpleCardProps } from '@/types/interfaces';
 import { cn } from '@/utils/cn';
-import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 
 export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const selectedItems = useSelectedStore((state) => state.selectedItems);
+  const toggleItemSelection = useSelectedStore(
+    (state) => state.toggleItemSelection
+  );
 
   const { name, url } = pokemon;
   const id = url.split('/').filter(Boolean).pop();
@@ -13,12 +18,11 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
     throw new Error(`ID "${id}" not found`);
   }
 
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const isChecked = selectedItems.includes(id);
 
   const handleCardClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    setIsChecked((prev) => !prev);
+    toggleItemSelection(id);
   };
 
   const handleClick = (event: React.MouseEvent) => {
