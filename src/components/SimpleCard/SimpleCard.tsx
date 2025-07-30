@@ -23,9 +23,9 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
         className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 cursor-pointer"
         onClick={handleClick}
       >
-        <div className="h-full p-4 text-gray-200 bg-neutral-700 rounded-lg hover:bg-neutral-600 transition-colors">
+        <div className="h-full p-4 bg-card rounded-lg hover:bg-primary transition-colors shadow-md">
           <h3 className="font-semibold text-lg capitalize">{name}</h3>
-          <p className="text-sm text-gray-400">Pokemon #{id}</p>
+          <p className="text-sm text-foreground-muted">Pokemon #{id}</p>
         </div>
       </div>
     )

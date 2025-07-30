@@ -6,7 +6,7 @@ export const Header = () => {
   return (
     <header
       role="banner"
-      className="text-center py-4 border-b-1 border-b-gray-500/30"
+      className="text-center py-4 border-b-1 border-b-foreground-muted/30"
     >
       <Container className="flex justify-between py-0">
         <nav>
@@ -17,7 +17,7 @@ export const Header = () => {
                   key={route.name}
                   to={route.path}
                   className={({ isActive }) => `duration-300 mx-1.5 
-                  ${isActive ? 'text-red-800' : 'text-gray-100 hover:text-red-800'}`}
+                  ${isActive ? 'text-accent' : 'text-foreground hover:text-accent'}`}
                   aria-label={`Link to the ${route.name} page`}
                 >
                   {route.name.toUpperCase()}

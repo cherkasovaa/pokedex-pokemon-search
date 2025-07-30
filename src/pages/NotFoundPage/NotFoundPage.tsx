@@ -19,7 +19,7 @@ export const NotFoundPage = () => {
           <div className="mt-8">
             <Link
               to={APP_PATHS.HOME}
-              className="text-lg rounded-full border border-gray-300 hover:bg-gray-300 font-medium hover:text-neutral-800 duration-300 px-4 py-2 "
+              className="text-lg rounded-full border border-foreground-muted hover:bg-foreground-muted font-medium hover:text-background duration-300 px-4 py-2"
             >
               {BUTTON_HOME_BACK}
             </Link>

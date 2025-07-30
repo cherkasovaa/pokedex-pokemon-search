@@ -15,7 +15,7 @@ export const AboutPage = () => {
         {imageIsLoading && (
           <div
             role="status"
-            className="absolute inset-0 flex items-center justify-center bg-neutral-600 animate-pulse z-10"
+            className="absolute inset-0 flex items-center justify-center bg-primary animate-pulse z-10"
           />
         )}
 

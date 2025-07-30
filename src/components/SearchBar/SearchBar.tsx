@@ -13,11 +13,7 @@ export const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
       onSubmit={onSearch}
     >
       <SearchInputField onChange={handleChange} value={value} />
-      <Button
-        content="Search"
-        type="submit"
-        className="border-gray-300 hover:bg-gray-200 text-gray-300 hover:text-gray-800"
-      />
+      <Button content="Search" type="submit" />
     </form>
   );
 };

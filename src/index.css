@@ -1,16 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import 'tailwindcss';
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@theme {
+  --font-primary: 'Inter', system-ui, Helvetica, Arial, sans-serif;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-primary: #f3f4f6;
+  --color-secondary: #d1d5dc;
+
+  --color-foreground: #515151;
+  --color-foreground-muted: #999999;
+
+  --color-accent: #d50c13;
+  --color-background: #EFF2F7;
+  --color-card: #fff;
+}
+
+.dark {
+  --color-primary: #525252;
+  --color-secondary: #90a1a7;
+
+  --color-foreground: #f3f4f6;
+  --color-foreground-muted: #d1d5dc;
+
+  --color-accent: #ea454a;
+  --color-background: #262626;
+  --color-card: #404040;
 }
 
 body {
-  @apply bg-neutral-800 text-gray-100;
+  @apply bg-background text-foreground font-primary;
 }

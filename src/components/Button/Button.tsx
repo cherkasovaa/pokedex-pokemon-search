@@ -8,7 +8,7 @@ export const Button = ({
   className = '',
 }: ButtonProps) => {
   const defaultClasses =
-    'inline-block max-w-max px-6 py-2 border  rounded-full cursor-pointer uppercase text-sm font-semibold transition-colors';
+    'hover:bg-foreground hover:text-background inline-block max-w-max px-6 py-2 border rounded-full cursor-pointer uppercase text-sm font-semibold transition-colors';
 
   return (
     <button

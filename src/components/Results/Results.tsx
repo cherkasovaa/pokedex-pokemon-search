@@ -13,7 +13,7 @@ export const Results = () => {
         {error && <ErrorMessage message={error} />}
 
         {!isLoading && !error && results?.length === 0 && (
-          <p className="text-2xl text-gray-300 text-center">
+          <p className="text-2xl text-foreground-muted text-center">
             There is no data to display. Try again
           </p>
         )}

@@ -15,10 +15,9 @@ export const Pagination = ({
     );
   };
 
-  const commonClasses =
-    'rounded-md font-medium transition-colors text-gray-100';
+  const commonClasses = 'rounded-md font-medium transition-colors';
   const defaultArrowButtonClasses =
-    'px-2 py-1 text-lg bg-neutral-700 not-disabled:hover:bg-neutral-600 disabled:opacity-50 not-disabled:cursor-pointer mx-1';
+    'px-2 py-1 text-lg bg-card not-disabled:hover:bg-primary disabled:opacity-50 not-disabled:cursor-pointer mx-1 shadow-sm';
 
   return (
     <div className="flex gap-2 items-baseline justify-center">
@@ -36,10 +35,10 @@ export const Pagination = ({
           onClick={() => onPageChange(item)}
           className={cn(
             commonClasses,
-            `px-4 py-2 text-sm ${
+            `shadow-sm px-4 py-2 text-sm ${
               currentPage === item
-                ? 'bg-red-700 text-white cursor-default'
-                : 'bg-neutral-700 hover:bg-neutral-600 cursor-pointer'
+                ? 'bg-accent text-gray-100 cursor-default'
+                : 'bg-card hover:bg-primary cursor-pointer'
             }`
           )}
           disabled={currentPage === item}

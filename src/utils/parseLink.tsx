@@ -12,7 +12,7 @@ export const parseLink = (text: string): JSX.Element | undefined => {
         href={linkUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="duration-300 text-red-700 italic hover:text-red-800"
+        className="duration-300 text-accent italic hover:text-accent/90"
       >
         {linkText}
       </a>

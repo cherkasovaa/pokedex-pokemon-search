@@ -22,12 +22,8 @@ export const DetailsPanel = () => {
   const pokemon = data?.[0];
 
   return (
-    <div className="h-full flex flex-col gap-5">
-      <Button
-        content="Close"
-        className="hover:bg-gray-200 text-gray-300 hover:text-gray-800 self-end"
-        onClick={handleClose}
-      />
+    <div className="p-4 h-full flex flex-col gap-5">
+      <Button content="Close" className="self-end" onClick={handleClose} />
       {isLoading && <Loader />}
       {error && <ErrorMessage message={error} />}
 
