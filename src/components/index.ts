@@ -4,6 +4,7 @@ export { Container } from './Container/Container';
 export { DetailedCard } from './DetailedCard/DetailedCard';
 export { DetailsPanel } from './DetailsPanel/DetailsPanel';
 export { ErrorMessage } from './ErrorMessage/ErrorMessage';
+export { Flyout } from './Flyout/Flyout';
 export { Footer } from './Footer/Footer';
 export { Header } from './Header/Header';
 export { Layout } from './Layout/Layout';

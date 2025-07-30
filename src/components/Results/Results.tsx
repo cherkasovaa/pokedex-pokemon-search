@@ -1,4 +1,4 @@
-import { CardList, ErrorMessage, Loader } from '@/components/';
+import { CardList, ErrorMessage, Flyout, Loader } from '@/components/';
 import { useApiContext } from '@/context/apiContext';
 
 export const Results = () => {
@@ -19,7 +19,10 @@ export const Results = () => {
         )}
 
         {!isLoading && !error && results?.length && (
-          <CardList results={results} />
+          <>
+            <CardList results={results} />
+            <Flyout />
+          </>
         )}
       </div>
     </div>
