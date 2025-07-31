@@ -1,12 +1,6 @@
+import type { SelectionState } from '@/types/store/interfaces';
+import type { ItemId } from '@/types/store/types';
 import { create } from 'zustand';
-
-type ItemId = string;
-
-interface SelectionState {
-  selectedItems: ItemId[];
-  toggleItemSelection: (id: ItemId) => void;
-  unselectAllItems: () => void;
-}
 
 export const useSelectedStore = create<SelectionState>((set) => ({
   selectedItems: [],
