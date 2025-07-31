@@ -1,18 +1,75 @@
+import { useCacheStore } from '@/store/cacheStore';
+import { useSelectedStore } from '@/store/store';
 import type { SimpleCardProps } from '@/types/interfaces';
-import { Component } from 'react';
+import { cn } from '@/utils/cn';
+import { useNavigate, useSearchParams } from 'react-router';
 
-export class SimpleCard extends Component<SimpleCardProps> {
-  render() {
-    const { name, url } = this.props.pokemon;
-    const id = url.split('/').filter(Boolean).pop();
+export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const selectedItems = useSelectedStore((state) => state.selectedItems);
+  const toggleItemSelection = useSelectedStore(
+    (state) => state.toggleItemSelection
+  );
+  const fetchDetails = useCacheStore((state) => state.fetchDetails);
 
-    return (
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
-        <div className="h-full p-4 text-gray-200 bg-neutral-700 rounded-lg hover:bg-neutral-600 transition-colors">
-          <h3 className="font-semibold text-lg capitalize">{name}</h3>
-          <p className="text-sm text-gray-400">Pokemon #{id}</p>
+  const { name, url } = pokemon;
+  const id = url.split('/').filter(Boolean).pop();
+
+  if (!id) {
+    throw new Error(`ID "${id}" not found`);
+  }
+
+  const isChecked = selectedItems.includes(id);
+
+  const handleCardClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    toggleItemSelection(id);
+    fetchDetails(id);
+  };
+
+  const handleClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+
+    navigate({
+      pathname: `/details/${id}`,
+      search: searchParams.toString(),
+    });
+  };
+
+  return (
+    <div
+      className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 cursor-pointer min-w-60"
+      onClick={handleCardClick}
+    >
+      <div
+        className={`h-full p-4 rounded-lg hover:bg-primary transition-colors shadow-md flex items-start justify-between 
+          ${isChecked ? 'bg-primary' : 'bg-card'}`}
+      >
+        <div className="flex flex-col justify-between">
+          <h3 className="font-semibold text-lg capitalize mb-1">{name}</h3>
+          <p className="text-sm text-foreground-muted">Pokemon #{id}</p>
+        </div>
+
+        <div className="flex flex-col items-end gap-1">
+          <input
+            type="checkbox"
+            checked={isChecked}
+            className={cn(
+              'mr-2.5 mt-2.5 accent-accent cursor-pointer',
+              isChecked ? 'opacity-100' : 'opacity-0'
+            )}
+            readOnly
+          />
+
+          <button
+            className="px-3 py-1 text-sm text-accent hover:bg-accent/10 rounded-2xl duration-300 cursor-pointer"
+            onClick={handleClick}
+          >
+            Details
+          </button>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};

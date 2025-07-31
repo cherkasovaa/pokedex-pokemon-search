@@ -1,4 +1,4 @@
-import { ErrorMessage } from '@/components/ErrorMessage';
+import { ErrorMessage } from '@/components';
 import type {
   ErrorBoundaryProps,
   ErrorBoundaryState,
@@ -28,7 +28,7 @@ export default class ErrorBoundary extends Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-neutral-800">
+        <div className="min-h-screen flex items-center justify-center bg-background">
           <ErrorMessage message={this.state.error?.message} />
         </div>
       );

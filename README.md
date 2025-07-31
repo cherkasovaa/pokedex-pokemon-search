@@ -2,7 +2,7 @@
 
 ## Project description
 
-Pokédex is a web application for finding Pokémon, built with React using class components. The application allows users to search for Pokémon by name and view their basic information and stats. This project demonstrates working with the component lifecycle, error handling, API interaction, and state management without external state management libraries.
+Pokédex is a web application for searching and viewing Pokémon, built with React and TypeScript. The application allows users to search for Pokémon by name, view their basic information and stats, and download selected Pokémon data as a CSV file. The project demonstrates modern React development, including component lifecycle, error handling, API interaction, and state management with Zustand.
 
 ### Key features:
 
@@ -10,13 +10,17 @@ Pokédex is a web application for finding Pokémon, built with React using class
 - Display list of all Pokemon when search is empty
 - Save search query in localStorage
 - Display detailed Pokemon information (image, statistics)
+- Pagination for browsing Pokémon list
+- Theme switcher
+- Author page with a short project description
+- Select Pokémon and download their information as a CSV file
 - Handle API errors with informative messages
 - Loading indicator during request execution
 - Error Boundary for catching critical errors
 
 ## Release date
 
-2025-07-11
+2025-07-31
 
 ## Technology stack
 
@@ -24,6 +28,9 @@ Pokédex is a web application for finding Pokémon, built with React using class
 - TypeScript
 - Vite
 - Tailwind CSS
+- React Router
+- Zustand
+- Vitest
 - PokeAPI
 - ESLint
 - Prettier
@@ -84,4 +91,16 @@ npm run lint
 ```bash
 # Automatically fix formatting with Prettier
 npm run format:fix
+```
+
+#### Running tests
+
+```bash
+# Run all tests
+npm run test
+```
+
+```bash
+# Run tests with coverage report
+npm run test:coverage
 ```
