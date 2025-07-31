@@ -51,7 +51,7 @@ export const Flyout = () => {
       className={`flex gap-3 justify-end items-center ${count ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="text-sm text-foreground-muted">
-        {count} items are selected
+        {`${count} item${count > 1 ? 's are' : ' is'} selected`}
       </div>
       <button className={defaultButtonClasses} onClick={unselectAllItems}>
         Unselect all
