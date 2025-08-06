@@ -1,4 +1,3 @@
-import { useCacheStore } from '@/store/cacheStore';
 import { useSelectedStore } from '@/store/store';
 import type { SimpleCardProps } from '@/types/interfaces';
 import { cn } from '@/utils/cn';
@@ -11,7 +10,6 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
   const toggleItemSelection = useSelectedStore(
     (state) => state.toggleItemSelection
   );
-  const fetchDetails = useCacheStore((state) => state.fetchDetails);
 
   const { name, url } = pokemon;
   const id = url.split('/').filter(Boolean).pop();
@@ -25,7 +23,6 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
   const handleCardClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     toggleItemSelection(id);
-    fetchDetails(id);
   };
 
   const handleClick = (event: React.MouseEvent) => {

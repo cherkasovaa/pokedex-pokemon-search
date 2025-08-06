@@ -1,10 +1,9 @@
-import { getPokemonByName } from '@/api/getPokemonByName';
 import { Button } from '@/components/Button/Button';
 import { DetailedCard } from '@/components/DetailedCard/DetailedCard';
 import { ErrorMessage } from '@/components/ErrorMessage/ErrorMessage';
 import { Loader } from '@/components/Loader/Loader';
-import { useApi } from '@/hooks/useApi';
-import { useCallback } from 'react';
+import { usePokemonSearch } from '@/hooks/usePokemonSearch';
+import { isDetailedPokemon } from '@/types/typeGuards';
 import { useOutletContext } from 'react-router';
 
 export const DetailsPanel = () => {
@@ -12,27 +11,25 @@ export const DetailsPanel = () => {
     pokemonId: string;
     handleClose: () => void;
   }>();
+  const { data, isLoading, error } = usePokemonSearch(pokemonId);
 
-  const memoizedApiCall = useCallback(() => {
-    return getPokemonByName(pokemonId);
-  }, [pokemonId]);
-
-  const { isLoading, error, data } = useApi(memoizedApiCall);
-
-  const pokemon = data?.[0];
+  const pokemon =
+    data?.results && isDetailedPokemon(data?.results[0])
+      ? data?.results[0]
+      : null;
 
   return (
     <div className="p-4 h-full flex flex-col gap-5">
       <Button content="Close" className="self-end" onClick={handleClose} />
       {isLoading && <Loader />}
-      {error && <ErrorMessage message={error} />}
-
-      {!isLoading && !error && (
-        <DetailedCard pokemon={pokemon} className="lg:my-auto" />
-      )}
+      {error && <ErrorMessage message={error.message} />}
 
       {!isLoading && !error && !pokemon && (
         <ErrorMessage message={`Pokemon with ID "${pokemonId}" not found.`} />
+      )}
+
+      {!isLoading && !error && pokemon && (
+        <DetailedCard pokemon={pokemon} className="lg:my-auto" />
       )}
     </div>
   );

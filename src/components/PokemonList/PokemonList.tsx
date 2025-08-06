@@ -1,14 +1,10 @@
-import { searchPokemon } from '@/api/searchPokemon';
 import { Pagination, Results, SearchBar } from '@/components';
-import { ApiProvider } from '@/context/apiContext';
-import { useApi } from '@/hooks/useApi';
+import { ITEMS_PER_PAGE } from '@/config/constants';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { usePokemonSearch } from '@/hooks/usePokemonSearch';
 import { APP_PATHS } from '@/types/router/constants';
-import { useCallback, useMemo, useState, type FormEvent } from 'react';
+import { useMemo, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-
-const ITEMS_PER_PAGE = 16;
-const PAGE_LIMIT = 5;
 
 export const PokemonList = () => {
   const [query, setQuery] = useLocalStorage();
@@ -17,17 +13,11 @@ export const PokemonList = () => {
   const navigate = useNavigate();
   const currentPage = Number(searchParams.get('page')) || 1;
 
-  const memoizedApiCall = useCallback(() => {
-    return searchPokemon(searchTerm, currentPage, ITEMS_PER_PAGE);
-  }, [searchTerm, currentPage]);
-
-  const apiState = useApi(memoizedApiCall);
+  const { data, isLoading, error } = usePokemonSearch(searchTerm, currentPage);
 
   const totalPages = useMemo(() => {
-    return apiState.data
-      ? Math.ceil(apiState.data.totalCount / ITEMS_PER_PAGE)
-      : 0;
-  }, [apiState.data]);
+    return data ? Math.ceil(data.totalCount / ITEMS_PER_PAGE) : 0;
+  }, [data]);
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,25 +35,26 @@ export const PokemonList = () => {
   };
 
   return (
-    <ApiProvider value={apiState}>
-      <div className="h-full grid grid-rows-[auto_1fr_auto]">
-        <SearchBar
-          value={query}
-          onChange={setQuery}
-          onSearch={handleSearchSubmit}
+    <div className="h-full grid grid-rows-[auto_1fr_auto]">
+      <SearchBar
+        value={query}
+        onChange={setQuery}
+        onSearch={handleSearchSubmit}
+      />
+
+      <Results
+        results={data?.results || []}
+        isLoading={isLoading}
+        error={error}
+      />
+
+      {totalPages > 1 && !isLoading && !error && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
         />
-
-        <Results />
-
-        {totalPages > 1 && !apiState.isLoading && !apiState.error && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            pageLimit={PAGE_LIMIT}
-          />
-        )}
-      </div>
-    </ApiProvider>
+      )}
+    </div>
   );
 };
