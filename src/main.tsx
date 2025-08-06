@@ -1,10 +1,13 @@
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import { ThemeProvider } from '@/context/theme/ThemeProvider';
 import { AppRouter } from '@/router/AppRouter';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import './index.css';
+
+const queryClient = new QueryClient();
 
 let root = document.getElementById('root');
 
@@ -18,9 +21,11 @@ createRoot(root).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <ErrorBoundary>
-          <AppRouter />
-        </ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <ErrorBoundary>
+            <AppRouter />
+          </ErrorBoundary>
+        </QueryClientProvider>
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>
