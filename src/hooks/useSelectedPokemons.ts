@@ -7,6 +7,7 @@ export const useSelectedPokemons = (selectedItems: string[]) => {
     queryKey: ['pokemon', id],
     queryFn: () => getPokemonByName(id),
     enabled: !!id,
+    staleTime: 1000 * 60 * 5,
   }));
 
   const results = useQueries({ queries });

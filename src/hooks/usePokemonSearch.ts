@@ -7,5 +7,6 @@ export const usePokemonSearch = (searchTerm: string, currentPage = 1) => {
     queryKey: ['pokemons', searchTerm, currentPage],
 
     queryFn: () => searchPokemon(searchTerm, currentPage, ITEMS_PER_PAGE),
+    staleTime: 1000 * 60 * 5,
   });
 };
