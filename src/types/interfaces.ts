@@ -39,6 +39,7 @@ export interface ButtonProps extends WithClasses {
   content: ReactNode;
   type?: ButtonType;
   onClick?: (event: MouseEvent) => void;
+  disabled?: boolean;
 }
 
 export interface ErrorMessageProps {

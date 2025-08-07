@@ -9,7 +9,7 @@ export const SearchBar = ({ value, onChange, onSearch }: SearchBarProps) => {
 
   return (
     <form
-      className="py-2 grid grid-cols-1 place-items-end sm:grid-cols-[1fr_auto] gap-6"
+      className="flex-grow grid grid-cols-1 place-items-end sm:grid-cols-[1fr_auto] gap-6"
       onSubmit={onSearch}
     >
       <SearchInputField onChange={handleChange} value={value} />
