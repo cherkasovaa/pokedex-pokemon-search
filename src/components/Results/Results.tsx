@@ -1,16 +1,12 @@
 import { CardList, ErrorMessage, Flyout, Loader } from '@/components/';
-import { useApiContext } from '@/context/apiContext';
+import type { ResultsProps } from '@/types/interfaces';
 
-export const Results = () => {
-  const { isLoading, error, data } = useApiContext();
-
-  const results = data?.results;
-
+export const Results = ({ results, isLoading, error }: ResultsProps) => {
   return (
     <div className="h-full p-4 flex flex-col overflow-hidden">
       <div className="flex-grow">
         {isLoading && <Loader />}
-        {error && <ErrorMessage message={error} />}
+        {error && <ErrorMessage message={error.message} />}
 
         {!isLoading && !error && results?.length === 0 && (
           <p className="text-2xl text-foreground-muted text-center">

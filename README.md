@@ -30,6 +30,7 @@ Pokédex is a web application for searching and viewing Pokémon, built with Rea
 - Tailwind CSS
 - React Router
 - Zustand
+- TanStack Query
 - Vitest
 - PokeAPI
 - ESLint

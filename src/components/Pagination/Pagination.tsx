@@ -1,3 +1,4 @@
+import { PAGE_LIMIT } from '@/config/constants';
 import type { PaginationProps } from '@/types/interfaces';
 import { cn } from '@/utils/cn';
 
@@ -5,12 +6,11 @@ export const Pagination = ({
   currentPage,
   totalPages,
   onPageChange,
-  pageLimit,
 }: PaginationProps) => {
   const getPaginationGroup = () => {
-    const start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
+    const start = Math.floor((currentPage - 1) / PAGE_LIMIT) * PAGE_LIMIT;
     return Array.from(
-      { length: Math.min(pageLimit, totalPages - start) },
+      { length: Math.min(PAGE_LIMIT, totalPages - start) },
       (_, i) => start + i + 1
     );
   };

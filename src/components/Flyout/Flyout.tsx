@@ -1,4 +1,4 @@
-import { useCacheStore } from '@/store/cacheStore';
+import { useSelectedPokemons } from '@/hooks/useSelectedPokemons';
 import { useSelectedStore } from '@/store/store';
 import { cn } from '@/utils/cn';
 import { exportToCsv } from '@/utils/exportToCsv';
@@ -9,29 +9,19 @@ export const Flyout = () => {
 
   const selectedItems = useSelectedStore((state) => state.selectedItems);
   const unselectAllItems = useSelectedStore((state) => state.unselectAllItems);
-  const details = useCacheStore((state) => state.cache);
-  const fetchDetails = useCacheStore((state) => state.fetchDetails);
+
+  const { data: pokemonDetails } = useSelectedPokemons(selectedItems);
 
   const count = selectedItems.length;
 
   const handleDownload = async () => {
-    if (count < 0) return;
+    if (count === 0 || isLoading || !pokemonDetails) return;
 
     try {
       setIsLoading(true);
 
-      const idsToFetch = selectedItems.filter((item) => !details[item]);
-
-      if (idsToFetch.length > 0) {
-        await Promise.all(idsToFetch.map((id) => fetchDetails(id)));
-      }
-
-      const itemsToDownload = selectedItems
-        .map((item) => details[item])
-        .filter(Boolean);
-
-      if (itemsToDownload) {
-        exportToCsv(itemsToDownload);
+      if (pokemonDetails.length > 0) {
+        exportToCsv(pokemonDetails);
       }
     } catch (error) {
       throw new Error(

@@ -1,33 +1,29 @@
-import { searchPokemon } from '@/api/searchPokemon';
-import { Pagination, Results, SearchBar } from '@/components';
-import { ApiProvider } from '@/context/apiContext';
-import { useApi } from '@/hooks/useApi';
+import { Button, Pagination, Results, SearchBar } from '@/components';
+import { ITEMS_PER_PAGE } from '@/config/constants';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { usePokemonSearch } from '@/hooks/usePokemonSearch';
 import { APP_PATHS } from '@/types/router/constants';
-import { useCallback, useMemo, useState, type FormEvent } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 
-const ITEMS_PER_PAGE = 16;
-const PAGE_LIMIT = 5;
-
 export const PokemonList = () => {
+  const queryClient = useQueryClient();
+
   const [query, setQuery] = useLocalStorage();
   const [searchTerm, setSearchTerm] = useState(query);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const currentPage = Number(searchParams.get('page')) || 1;
 
-  const memoizedApiCall = useCallback(() => {
-    return searchPokemon(searchTerm, currentPage, ITEMS_PER_PAGE);
-  }, [searchTerm, currentPage]);
-
-  const apiState = useApi(memoizedApiCall);
+  const { data, isLoading, error, isRefetching } = usePokemonSearch(
+    searchTerm,
+    currentPage
+  );
 
   const totalPages = useMemo(() => {
-    return apiState.data
-      ? Math.ceil(apiState.data.totalCount / ITEMS_PER_PAGE)
-      : 0;
-  }, [apiState.data]);
+    return data ? Math.ceil(data.totalCount / ITEMS_PER_PAGE) : 0;
+  }, [data]);
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,26 +40,37 @@ export const PokemonList = () => {
     setSearchParams({ page: newPage.toString() });
   };
 
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({
+      queryKey: ['pokemons', searchTerm, currentPage],
+    });
+  };
+
   return (
-    <ApiProvider value={apiState}>
-      <div className="h-full grid grid-rows-[auto_1fr_auto]">
+    <div className="h-full grid grid-rows-[auto_1fr_auto]">
+      <div className="flex gap-3.5 py-2">
         <SearchBar
           value={query}
           onChange={setQuery}
           onSearch={handleSearchSubmit}
         />
 
-        <Results />
-
-        {totalPages > 1 && !apiState.isLoading && !apiState.error && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            pageLimit={PAGE_LIMIT}
-          />
-        )}
+        <Button content="Refresh" onClick={handleRefresh} />
       </div>
-    </ApiProvider>
+
+      <Results
+        results={data?.results || []}
+        isLoading={isLoading || isRefetching}
+        error={error}
+      />
+
+      {totalPages > 1 && !isLoading && !error && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+    </div>
   );
 };

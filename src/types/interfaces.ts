@@ -39,6 +39,7 @@ export interface ButtonProps extends WithClasses {
   content: ReactNode;
   type?: ButtonType;
   onClick?: (event: MouseEvent) => void;
+  disabled?: boolean;
 }
 
 export interface ErrorMessageProps {
@@ -51,7 +52,7 @@ export interface CardListProps {
 
 export interface ResultsProps extends CardListProps {
   isLoading: boolean;
-  error: string | null;
+  error: Error | null;
 }
 
 export interface AppState extends ResultsProps {
@@ -114,5 +115,4 @@ export interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  pageLimit: number;
 }
