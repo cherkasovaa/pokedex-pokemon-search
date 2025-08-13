@@ -10,11 +10,11 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, test, vi } from 'vitest';
 
-vi.mock('@/pages/HomePage/HomePage', () => ({
+vi.mock('@/view/HomePage/HomePage', () => ({
   HomePage: HomePageMock,
 }));
 
-vi.mock('@/pages/AboutPage/AboutPage', () => ({
+vi.mock('@/view/AboutPage/AboutPage', () => ({
   AboutPage: AboutPageMock,
 }));
 
@@ -22,7 +22,7 @@ vi.mock('@/components/DetailsPanel/DetailsPanel', () => ({
   DetailsPanel: DetailsPanelMock,
 }));
 
-vi.mock('@/pages/NotFoundPage/NotFoundPage', () => ({
+vi.mock('@/view/NotFoundPage/NotFoundPage', () => ({
   NotFoundPage: NotFoundPageMock,
 }));
 

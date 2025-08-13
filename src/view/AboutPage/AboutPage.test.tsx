@@ -1,6 +1,6 @@
-import { AboutPage } from '@/pages/';
-import { ABOUT_TEXT } from '@/pages/AboutPage/about-text';
-import { PAGE_TITLE } from '@/pages/AboutPage/constants';
+import { AboutPage } from '@/view/';
+import { ABOUT_TEXT } from '@/view/AboutPage/about-text';
+import { PAGE_TITLE } from '@/view/AboutPage/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 

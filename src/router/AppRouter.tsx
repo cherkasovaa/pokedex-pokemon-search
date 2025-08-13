@@ -1,6 +1,6 @@
 import { DetailsPanel, Layout } from '@/components';
-import { AboutPage, HomePage, NotFoundPage } from '@/pages';
 import { APP_PATHS } from '@/types/router/constants';
+import { AboutPage, HomePage, NotFoundPage } from '@/view';
 import { Route, Routes } from 'react-router';
 
 export const AppRouter = () => {

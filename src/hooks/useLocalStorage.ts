@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useLocalStorage = (key = 'searchTerm') => {
-  const [query, setQueryState] = useState(
-    () => localStorage.getItem(key) || ''
-  );
+  const [query, setQueryState] = useState('');
+
+  useEffect(() => {
+    const term = localStorage.getItem(key);
+
+    if (term) {
+      setQueryState(term);
+    }
+  }, [key]);
 
   const setQuery = (value: string): void => {
     setQueryState(value);

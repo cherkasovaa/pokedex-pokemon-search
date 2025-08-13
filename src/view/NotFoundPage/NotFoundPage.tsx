@@ -1,8 +1,8 @@
+import { APP_PATHS } from '@/types/router/constants';
 import {
   BUTTON_HOME_BACK,
   PAGE_TITLE,
-} from '@/pages/NotFoundPage/constants/constants';
-import { APP_PATHS } from '@/types/router/constants';
+} from '@/view/NotFoundPage/constants/constants';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { Link } from 'react-router';
 

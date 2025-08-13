@@ -1,6 +1,6 @@
-import { ABOUT_TEXT } from '@/pages/AboutPage/about-text';
-import { PAGE_TITLE } from '@/pages/AboutPage/constants';
 import { parseTextToJSX } from '@/utils/parseTextToJSX';
+import { ABOUT_TEXT } from '@/view/AboutPage/about-text';
+import { PAGE_TITLE } from '@/view/AboutPage/constants';
 import { useState } from 'react';
 
 export const AboutPage = () => {

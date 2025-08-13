@@ -1,8 +1,8 @@
 import {
   BUTTON_HOME_BACK,
   PAGE_TITLE,
-} from '@/pages/NotFoundPage/constants/constants';
-import { NotFoundPage } from '@/pages/NotFoundPage/NotFoundPage';
+} from '@/view/NotFoundPage/constants/constants';
+import { NotFoundPage } from '@/view/NotFoundPage/NotFoundPage';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { beforeEach, describe, expect, test, vi } from 'vitest';

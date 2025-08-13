@@ -1,4 +1,4 @@
-import { HomePage } from '@/pages/HomePage/HomePage';
+import { HomePage } from '@/view/HomePage/HomePage';
 import { APP_PATHS } from '@/types/router/constants';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
