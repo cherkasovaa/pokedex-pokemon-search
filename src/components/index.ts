@@ -7,6 +7,7 @@ export { ErrorMessage } from './ErrorMessage/ErrorMessage';
 export { Flyout } from './Flyout/Flyout';
 export { Footer } from './Footer/Footer';
 export { Header } from './Header/Header';
+export { LinkComponent } from './LinkComponent/LinkComponent';
 export { Loader } from './Loader/Loader';
 export { LottieAnimation } from './LottieAnimation/LottieAnimation';
 export { Pagination } from './Pagination/Pagination';
