@@ -1,0 +1,14 @@
+{
+  "NotFoundPage": {
+    "title": "Страница не найдена",
+    "buttonHomeBack": "На главную"
+  },
+  "Navigation": {
+    "home": "Главная",
+    "about": "О проекте"
+  },
+  "DetailsPanel": {
+    "closeButton": "Закрыть",
+    "notFound": "Покемон с ID '{id}' не найден."
+  }
+}

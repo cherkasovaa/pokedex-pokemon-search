@@ -1,0 +1,14 @@
+{
+  "NotFoundPage": {
+    "title": "Page Not Found",
+    "buttonHomeBack": "Back to Home"
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About"
+  },
+  "DetailsPanel": {
+    "closeButton": "Close",
+    "notFound": "Pokemon with ID '{id}' not found."
+  }
+}
