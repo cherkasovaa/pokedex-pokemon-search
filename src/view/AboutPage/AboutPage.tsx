@@ -1,7 +1,11 @@
+'use client';
+
 import { parseTextToJSX } from '@/utils/parseTextToJSX';
 import { ABOUT_TEXT } from '@/view/AboutPage/about-text';
 import { PAGE_TITLE } from '@/view/AboutPage/constants';
 import { useState } from 'react';
+
+import Image from 'next/image';
 
 export const AboutPage = () => {
   const [imageIsLoading, setImageIsLoading] = useState(true);
@@ -12,18 +16,21 @@ export const AboutPage = () => {
       <h1 className="text-3xl sm:text-4xl font-medium mb-10">{PAGE_TITLE}</h1>
 
       <div className="flex flex-col gap-10 lg:flex-row">
-        {imageIsLoading && (
-          <div
-            role="status"
-            className="absolute inset-0 flex items-center justify-center bg-primary animate-pulse z-10"
-          />
-        )}
+        <div className="relative overflow-hidden rounded-lg shadow-2xl lg:w-1/3 aspect-square">
+          {imageIsLoading && (
+            <div
+              role="status"
+              className="object-fill absolute inset-0 flex items-center justify-center bg-primary animate-pulse z-10"
+            />
+          )}
 
-        <div className="overflow-hidden rounded-lg shadow-2xl lg:w-1/3">
-          <img
+          <Image
             src="/my-photo.jpg"
             alt="Alina's photo"
-            className={`h-full w-full object-cover ${imageIsLoading ? 'opacity-0' : 'opacity-100'}`}
+            priority
+            fill
+            sizes="(max-width: 1024px) 100vw, 33vw"
+            className={`object-cover transition-opacity ${imageIsLoading ? 'opacity-0' : 'opacity-100'}`}
             onLoad={() => setImageIsLoading(false)}
             onError={() => setImageIsLoading(false)}
           />
