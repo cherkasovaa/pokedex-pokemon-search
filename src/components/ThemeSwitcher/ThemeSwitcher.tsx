@@ -1,3 +1,5 @@
+'use client';
+
 import { THEMES } from '@/components/ThemeSwitcher/themes';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/utils/cn';

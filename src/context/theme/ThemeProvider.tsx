@@ -1,3 +1,5 @@
+'use client';
+
 import { THEME_LS_KEY } from '@/context/theme/constants';
 import { ThemeContext } from '@/context/theme/themeContext';
 import { useLocalStorage } from '@/hooks/useLocalStorage';

@@ -1,8 +1,13 @@
+'use client';
+
 import { Container, ThemeSwitcher } from '@/components';
 import { APP_ROUTES } from '@/router/routes';
-import { NavLink } from 'react-router';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export const Header = () => {
+  const pathname = usePathname();
+
   return (
     <header
       role="banner"
@@ -12,16 +17,18 @@ export const Header = () => {
         <nav>
           {APP_ROUTES.map((route) => {
             if (route.meta.isShowInNavigation) {
+              const isActive = pathname === route.path;
+
               return (
-                <NavLink
+                <Link
                   key={route.name}
-                  to={route.path}
-                  className={({ isActive }) => `duration-300 mx-1.5 
+                  href={route.path}
+                  className={`duration-300 mx-1.5 
                   ${isActive ? 'text-accent' : 'text-foreground hover:text-accent'}`}
                   aria-label={`Link to the ${route.name} page`}
                 >
                   {route.name.toUpperCase()}
-                </NavLink>
+                </Link>
               );
             }
           })}
