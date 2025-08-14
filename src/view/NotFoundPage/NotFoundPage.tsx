@@ -4,7 +4,7 @@ import {
   PAGE_TITLE,
 } from '@/view/NotFoundPage/constants/constants';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 
 export const NotFoundPage = () => {
   return (
@@ -18,7 +18,7 @@ export const NotFoundPage = () => {
 
           <div className="mt-8">
             <Link
-              to={APP_PATHS.HOME}
+              href={APP_PATHS.HOME}
               className="text-lg rounded-full border border-foreground-muted hover:bg-foreground-muted font-medium hover:text-background duration-300 px-4 py-2"
             >
               {BUTTON_HOME_BACK}
