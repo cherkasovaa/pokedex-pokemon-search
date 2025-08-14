@@ -3,9 +3,8 @@
 import { parseTextToJSX } from '@/utils/parseTextToJSX';
 import { ABOUT_TEXT } from '@/view/AboutPage/about-text';
 import { PAGE_TITLE } from '@/view/AboutPage/constants';
-import { useState } from 'react';
-
 import Image from 'next/image';
+import { useState } from 'react';
 
 export const AboutPage = () => {
   const [imageIsLoading, setImageIsLoading] = useState(true);
@@ -20,7 +19,7 @@ export const AboutPage = () => {
           {imageIsLoading && (
             <div
               role="status"
-              className="object-fill absolute inset-0 flex items-center justify-center bg-primary animate-pulse z-10"
+              className="object-fill absolute bg-foreground/10 animate-pulse"
             />
           )}
 
@@ -30,7 +29,7 @@ export const AboutPage = () => {
             priority
             fill
             sizes="(max-width: 1024px) 100vw, 33vw"
-            className={`object-cover transition-opacity ${imageIsLoading ? 'opacity-0' : 'opacity-100'}`}
+            className={`object-cover transition-opacity ease-in-out ${imageIsLoading ? 'opacity-0' : 'opacity-100'}`}
             onLoad={() => setImageIsLoading(false)}
             onError={() => setImageIsLoading(false)}
           />
