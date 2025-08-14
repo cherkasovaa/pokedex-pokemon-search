@@ -6,11 +6,13 @@ import { ErrorMessage } from '@/components/ErrorMessage/ErrorMessage';
 import { Loader } from '@/components/Loader/Loader';
 import { usePokemonSearch } from '@/hooks/usePokemonSearch';
 import { isDetailedPokemon } from '@/types/typeGuards';
+import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export const DetailsPanel = ({ id }: { id: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('DetailsPanel');
   const { data, isLoading, error } = usePokemonSearch(id);
 
   const pokemon =
@@ -25,12 +27,16 @@ export const DetailsPanel = ({ id }: { id: string }) => {
 
   return (
     <div className="p-4 h-full flex flex-col gap-5">
-      <Button content="Close" className="self-end" onClick={handleClose} />
+      <Button
+        content={t('closeButton')}
+        className="self-end"
+        onClick={handleClose}
+      />
       {isLoading && <Loader />}
       {error && <ErrorMessage message={error.message} />}
 
       {!isLoading && !error && !pokemon && (
-        <ErrorMessage message={`Pokemon with ID "${id}" not found.`} />
+        <ErrorMessage message={t('notFound', { id: id })} />
       )}
 
       {!isLoading && !error && pokemon && (

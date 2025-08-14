@@ -20,5 +20,12 @@
     "unselectAllButton": "Unselect all",
     "downloadButton": "{state, select, loading {Downloading...} other {Download}}",
     "downloadError": "Failed to download pokemon data: "
+  },
+  "ErrorMessage": {
+    "title": "Something went wrong",
+    "defaultMessage": "An unexpected error occurred. Please try again later"
+  },
+  "Footer": {
+    "creatorName": "Alina Cherkasova"
   }
 }

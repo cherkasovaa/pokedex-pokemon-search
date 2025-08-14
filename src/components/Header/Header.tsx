@@ -1,9 +1,9 @@
 'use client';
 
 import { Container, ThemeSwitcher } from '@/components';
+import { Link } from '@/i18n/navigation';
 import { APP_ROUTES } from '@/router/routes';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export const Header = () => {
