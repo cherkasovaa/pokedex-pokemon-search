@@ -14,5 +14,11 @@
   "AboutPage": {
     "title": "Pokédex: О проекте",
     "text": "<p>Привет! Я Алина. <highlight>Рада, что Вы здесь</highlight>!</p><p>Добро пожаловать в мой маленький пэт-проект - <highlight>Pokédex: Поиск покемонов</highlight>! Это веб-приложение было создано в августе 2025 года в рамках обучения на курсе <rsslink>React в школе RSSchool</rsslink>. Проект <highlight>был создан с энтузиазмом и любовью</highlight> к веб-дизайну и современным технологиям.</p><p>В основе разработки проекта лежит <highlight>React</highlight> и <highlight>TypeScript</highlight>. Я также использовала <highlight>Tailwind CSS</highlight> для создания элегантного и отзывчивого дизайна. Весь процесс создания, тестирования и сборки был быстрым и эффективным благодаря <highlight>Vite и Vitest</highlight>, а в последующей работе была произведена миграция на <highlight>Next.js</highlight>. Наконец, все это легко было опубликовано онлайн с помощью <highlight>Vercel</highlight>.</p><p>Если Вы хотите узнать, над чем еще я работаю, <highlight>не стесняйтесь ознакомиться с</highlight> моим <portfolio>портфолио</portfolio> или просмотреть другие мои проекты на <github>GitHub</github>.</p><p>Надеюсь, Вам понравилось! <highlight>Спасибо, что заглянули</highlight>!</p>"
+  },
+  "Flyout": {
+    "itemsSelected": "{count, plural, one {# элемент выбран} few {# элемента выбрано} other {# элементов выбрано}}",
+    "unselectAllButton": "Снять выделение",
+    "downloadButton": "{state, select, loading {Скачивание...} other {Скачать}}",
+    "downloadError": "Не удалось скачать данные: "
   }
 }

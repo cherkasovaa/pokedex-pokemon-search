@@ -4,10 +4,12 @@ import { useSelectedPokemons } from '@/hooks/useSelectedPokemons';
 import { useSelectedStore } from '@/store/store';
 import { cn } from '@/utils/cn';
 import { exportToCsv } from '@/utils/exportToCsv';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 export const Flyout = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const t = useTranslations('Flyout');
 
   const selectedItems = useSelectedStore((state) => state.selectedItems);
   const unselectAllItems = useSelectedStore((state) => state.unselectAllItems);
@@ -26,10 +28,8 @@ export const Flyout = () => {
         exportToCsv(pokemonDetails);
       }
     } catch (error) {
-      throw new Error(
-        'Failed to download pokemon data: ' +
-          (error instanceof Error ? error.message : String(error))
-      );
+      const msg = error instanceof Error ? error.message : String(error);
+      throw new Error(t('downloadError') + msg);
     } finally {
       setIsLoading(false);
     }
@@ -43,17 +43,17 @@ export const Flyout = () => {
       className={`flex gap-3 justify-end items-center ${count ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="text-sm text-foreground-muted">
-        {`${count} item${count > 1 ? 's are' : ' is'} selected`}
+        {t('itemsSelected', { count: count })}
       </div>
       <button className={defaultButtonClasses} onClick={unselectAllItems}>
-        Unselect all
+        {t('unselectAllButton')}
       </button>
       <button
         className={cn(defaultButtonClasses, isLoading ? 'animate-pulse' : '')}
         disabled={isLoading}
         onClick={handleDownload}
       >
-        {isLoading ? 'Downloading...' : 'Download'}
+        {t('downloadButton', { state: isLoading ? 'loading' : 'other' })}
       </button>
     </div>
   ) : (
