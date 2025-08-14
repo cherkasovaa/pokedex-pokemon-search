@@ -1,18 +1,18 @@
 'use client';
 
-import { parseTextToJSX } from '@/utils/parseTextToJSX';
-import { ABOUT_TEXT } from '@/view/AboutPage/about-text';
-import { PAGE_TITLE } from '@/view/AboutPage/constants';
+import { LinkComponent } from '@/components';
+import { URLS } from '@/view/AboutPage/constants';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useState } from 'react';
 
 export const AboutPage = () => {
   const [imageIsLoading, setImageIsLoading] = useState(true);
-  const textChunks = ABOUT_TEXT.split('\n').filter(Boolean);
+  const t = useTranslations('AboutPage');
 
   return (
     <section className="py-8">
-      <h1 className="text-3xl sm:text-4xl font-medium mb-10">{PAGE_TITLE}</h1>
+      <h1 className="text-3xl sm:text-4xl font-medium mb-10">{t('title')}</h1>
 
       <div className="flex flex-col gap-10 lg:flex-row">
         <div className="relative overflow-hidden rounded-lg shadow-2xl lg:w-1/3 aspect-square">
@@ -35,19 +35,23 @@ export const AboutPage = () => {
           />
         </div>
 
-        {textChunks.length && (
-          <div className="lg:w-2/3">
-            {textChunks.map((chunk) => {
-              const text = parseTextToJSX(chunk);
-
-              return (
-                <p key={chunk} className="mb-3">
-                  {text}
-                </p>
-              );
-            })}
-          </div>
-        )}
+        <div className="lg:w-2/3">
+          {t.rich('text', {
+            p: (chunks) => <p className="mb-3">{chunks}</p>,
+            highlight: (chunks) => (
+              <span className="italic font-medium">{chunks}</span>
+            ),
+            rsslink: (chunks) => (
+              <LinkComponent href={URLS.rsslink}>{chunks}</LinkComponent>
+            ),
+            github: (chunks) => (
+              <LinkComponent href={URLS.github}>{chunks}</LinkComponent>
+            ),
+            portfolio: (chunks) => (
+              <LinkComponent href={URLS.portfolio}>{chunks}</LinkComponent>
+            ),
+          })}
+        </div>
       </div>
     </section>
   );
