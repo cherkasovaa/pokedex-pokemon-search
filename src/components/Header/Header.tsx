@@ -2,11 +2,13 @@
 
 import { Container, ThemeSwitcher } from '@/components';
 import { APP_ROUTES } from '@/router/routes';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export const Header = () => {
   const pathname = usePathname();
+  const t = useTranslations('Navigation');
 
   return (
     <header
@@ -27,7 +29,7 @@ export const Header = () => {
                   ${isActive ? 'text-accent' : 'text-foreground hover:text-accent'}`}
                   aria-label={`Link to the ${route.name} page`}
                 >
-                  {route.name.toUpperCase()}
+                  {t(route.name).toUpperCase()}
                 </Link>
               );
             }
