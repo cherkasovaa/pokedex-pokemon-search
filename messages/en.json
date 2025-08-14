@@ -27,5 +27,20 @@
   },
   "Footer": {
     "creatorName": "Alina Cherkasova"
+  },
+  "Results": {
+    "noDataMsg": "There is no data to display. Try again"
+  },
+  "SearchBar": {
+    "searchButton": "Search",
+    "inputPlaceholder": "Input something to search..."
+  },
+  "SimpleCard": {
+    "description": "Pokemon #{id}",
+    "detailsButton": "Details",
+    "errorMsg": "ID {id} not found"
+  },
+  "PokemonList": {
+    "refreshButton": "Refresh"
   }
 }

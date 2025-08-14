@@ -5,11 +5,13 @@ import { ITEMS_PER_PAGE } from '@/config/constants';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePokemonSearch } from '@/hooks/usePokemonSearch';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState, type FormEvent } from 'react';
 
 export const PokemonList = () => {
   const queryClient = useQueryClient();
+  const t = useTranslations('PokemonList');
 
   const [query, setQuery] = useLocalStorage();
   const [searchTerm, setSearchTerm] = useState(query);
@@ -63,7 +65,7 @@ export const PokemonList = () => {
           onSearch={handleSearchSubmit}
         />
 
-        <Button content="Refresh" onClick={handleRefresh} />
+        <Button content={t('refreshButton')} onClick={handleRefresh} />
       </div>
 
       <Results

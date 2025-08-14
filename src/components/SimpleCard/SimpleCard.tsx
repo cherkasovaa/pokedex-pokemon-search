@@ -3,10 +3,12 @@
 import { useSelectedStore } from '@/store/store';
 import type { SimpleCardProps } from '@/types/interfaces';
 import { cn } from '@/utils/cn';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
+  const t = useTranslations('SimpleCard');
   const searchParams = useSearchParams();
   const selectedItems = useSelectedStore((state) => state.selectedItems);
   const toggleItemSelection = useSelectedStore(
@@ -17,7 +19,7 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
   const id = url.split('/').filter(Boolean).pop();
 
   if (!id) {
-    throw new Error(`ID "${id}" not found`);
+    throw new Error(t('errorMsg', { id: id || '' }));
   }
 
   const page = searchParams.get('page');
@@ -43,7 +45,9 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
       >
         <div className="flex flex-col justify-between">
           <h3 className="font-semibold text-lg capitalize mb-1">{name}</h3>
-          <p className="text-sm text-foreground-muted">Pokemon #{id}</p>
+          <p className="text-sm text-foreground-muted">
+            {t('description', { id: id })}
+          </p>
         </div>
 
         <div className="flex flex-col items-end gap-1">
@@ -65,7 +69,7 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
             className="px-3 py-1 text-sm text-accent hover:bg-accent/10 rounded-2xl duration-300 cursor-pointer"
             onClick={(event) => event.stopPropagation()}
           >
-            Details
+            {t('detailsButton')}
           </Link>
         </div>
       </div>

@@ -27,5 +27,20 @@
   },
   "Footer": {
     "creatorName": "Алина Черкасова"
+  },
+  "Results": {
+    "noDataMsg": "Нет данных для отображения. Попробуйте позже"
+  },
+  "SearchBar": {
+    "searchButton": "Поиск",
+    "inputPlaceholder": "Вводите запрос здесь..."
+  },
+  "SimpleCard": {
+    "description": "Покемон #{id}",
+    "detailsButton": "Детали",
+    "errorMsg": "ID {id} не найден"
+  },
+  "PokemonList": {
+    "refreshButton": "Обновить"
   }
 }
