@@ -1,11 +1,13 @@
+'use client';
+
 import { useSelectedStore } from '@/store/store';
 import type { SimpleCardProps } from '@/types/interfaces';
 import { cn } from '@/utils/cn';
-import { useNavigate, useSearchParams } from 'react-router';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const selectedItems = useSelectedStore((state) => state.selectedItems);
   const toggleItemSelection = useSelectedStore(
     (state) => state.toggleItemSelection
@@ -18,6 +20,10 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
     throw new Error(`ID "${id}" not found`);
   }
 
+  const page = searchParams.get('page');
+
+  const queryParams = page ? { page } : {};
+
   const isChecked = selectedItems.includes(id);
 
   const handleCardClick = (event: React.MouseEvent) => {
@@ -25,19 +31,11 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
     toggleItemSelection(id);
   };
 
-  const handleClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-
-    navigate({
-      pathname: `/details/${id}`,
-      search: searchParams.toString(),
-    });
-  };
-
   return (
     <div
       className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2 cursor-pointer min-w-60"
       onClick={handleCardClick}
+      role="button"
     >
       <div
         className={`h-full p-4 rounded-lg hover:bg-primary transition-colors shadow-md flex items-start justify-between 
@@ -59,12 +57,16 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
             readOnly
           />
 
-          <button
+          <Link
+            href={{
+              pathname: `/details/${id}`,
+              query: queryParams,
+            }}
             className="px-3 py-1 text-sm text-accent hover:bg-accent/10 rounded-2xl duration-300 cursor-pointer"
-            onClick={handleClick}
+            onClick={(event) => event.stopPropagation()}
           >
             Details
-          </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import { useSelectedPokemons } from '@/hooks/useSelectedPokemons';
 import { useSelectedStore } from '@/store/store';
 import { cn } from '@/utils/cn';

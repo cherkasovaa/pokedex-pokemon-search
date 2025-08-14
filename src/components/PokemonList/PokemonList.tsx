@@ -1,19 +1,21 @@
+'use client';
+
 import { Button, Pagination, Results, SearchBar } from '@/components';
 import { ITEMS_PER_PAGE } from '@/config/constants';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePokemonSearch } from '@/hooks/usePokemonSearch';
-import { APP_PATHS } from '@/types/router/constants';
 import { useQueryClient } from '@tanstack/react-query';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState, type FormEvent } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
 
 export const PokemonList = () => {
   const queryClient = useQueryClient();
 
   const [query, setQuery] = useLocalStorage();
   const [searchTerm, setSearchTerm] = useState(query);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const { data, isLoading, error, isRefetching } = usePokemonSearch(
@@ -31,13 +33,19 @@ export const PokemonList = () => {
 
     setSearchTerm(searchTerm);
 
-    navigate({
-      pathname: APP_PATHS.HOME,
-    });
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('page');
+
+    const queries = searchParams.toString();
+    router.push(queries ? `/?${queries}` : '/');
   };
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString() });
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', newPage.toString());
+
+    const queries = params.toString();
+    router.push(queries ? `${pathname}?${queries}` : pathname);
   };
 
   const handleRefresh = () => {

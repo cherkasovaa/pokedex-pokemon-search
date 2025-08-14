@@ -1,20 +1,12 @@
+'use client';
+
 import { PokemonList } from '@/components';
-import { APP_PATHS } from '@/types/router/constants';
-import { Outlet, useNavigate, useParams, useSearchParams } from 'react-router';
+import { useSelectedLayoutSegment } from 'next/navigation';
+import type { PropsWithChildren } from 'react';
 
-export const HomePage = () => {
-  const params = useParams();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const showDetails = !!params.id;
-
-  const handleCloseDetails = () => {
-    navigate({
-      pathname: APP_PATHS.HOME,
-      search: searchParams.toString(),
-    });
-  };
+export const HomePage = ({ children }: PropsWithChildren) => {
+  const segment = useSelectedLayoutSegment();
+  const showDetails = segment === 'details';
 
   return (
     <div className="relative flex">
@@ -32,9 +24,7 @@ export const HomePage = () => {
           className="h-full bg-card shadow-md overflow-hidden lg:rounded-2xl"
           onClick={(event) => event.stopPropagation()}
         >
-          <Outlet
-            context={{ pokemonId: params.id, handleClose: handleCloseDetails }}
-          />
+          {children}
         </div>
       </aside>
     </div>
