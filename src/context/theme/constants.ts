@@ -1,1 +1,1 @@
-export const THEME_LS_KEY = 'pokedex-ui-theme';
+export const THEME_COOKIES_KEY = 'pokedex-ui-theme';

@@ -1,8 +1,11 @@
 import { Providers } from '@/app/[locale]/providers';
 import { Container, Footer, Header } from '@/components';
+import { THEME_COOKIES_KEY } from '@/context/theme/constants';
 import { routing } from '@/i18n/routing';
+import { THEME_MODE, type Theme } from '@/types/theme.types';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
+import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import '../../globals.css';
 
@@ -23,11 +26,14 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  const themeCookie = (await cookies()).get(THEME_COOKIES_KEY);
+  const initialTheme = (themeCookie?.value as Theme) || THEME_MODE.SYSTEM;
+
   return (
-    <html lang={locale}>
-      <body suppressHydrationWarning={true}>
+    <html lang={locale} className={initialTheme}>
+      <body>
         <NextIntlClientProvider>
-          <Providers>
+          <Providers initialTheme={initialTheme}>
             <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
               <Header />
 
