@@ -116,3 +116,21 @@ export interface PaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
 }
+
+export interface PokemonListData {
+  results: (Pokemon | PokemonDetails)[];
+  totalCount: number;
+}
+
+export interface HomePageProps {
+  query: string;
+  currentPage: number;
+  initialListData: PokemonListData;
+  initialDetailsData: PokemonDetails | null;
+}
+
+export interface PokemonListProps {
+  query: string;
+  currentPage: number;
+  initialData: PokemonListData;
+}

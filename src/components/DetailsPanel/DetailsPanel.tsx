@@ -3,26 +3,21 @@
 import { Button } from '@/components/Button/Button';
 import { DetailedCard } from '@/components/DetailedCard/DetailedCard';
 import { ErrorMessage } from '@/components/ErrorMessage/ErrorMessage';
-import { Loader } from '@/components/Loader/Loader';
-import { usePokemonSearch } from '@/hooks/usePokemonSearch';
-import { isDetailedPokemon } from '@/types/typeGuards';
+import { useRouter } from '@/i18n/navigation';
+import type { PokemonDetails } from '@/types/interfaces';
 import { useTranslations } from 'next-intl';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
-export const DetailsPanel = ({ id }: { id: string }) => {
+export const DetailsPanel = ({ pokemon }: { pokemon: PokemonDetails }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const t = useTranslations('DetailsPanel');
-  const { data, isLoading, error } = usePokemonSearch(id);
-
-  const pokemon =
-    data?.results && isDetailedPokemon(data?.results[0])
-      ? data?.results[0]
-      : null;
 
   const handleClose = () => {
-    const queries = searchParams.toString();
-    router.push(queries ? `/?${queries}` : '/');
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('details');
+
+    router.push(`?${params.toString()}`);
   };
 
   return (
@@ -32,15 +27,11 @@ export const DetailsPanel = ({ id }: { id: string }) => {
         className="self-end"
         onClick={handleClose}
       />
-      {isLoading && <Loader />}
-      {error && <ErrorMessage message={error.message} />}
 
-      {!isLoading && !error && !pokemon && (
-        <ErrorMessage message={t('notFound', { id: id })} />
-      )}
-
-      {!isLoading && !error && pokemon && (
+      {pokemon ? (
         <DetailedCard pokemon={pokemon} className="lg:my-auto" />
+      ) : (
+        <ErrorMessage message={t('notFound')} />
       )}
     </div>
   );

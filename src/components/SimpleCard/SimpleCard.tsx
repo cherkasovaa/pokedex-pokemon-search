@@ -1,10 +1,10 @@
 'use client';
 
+import { Link } from '@/i18n/navigation';
 import { useSelectedStore } from '@/store/store';
 import type { SimpleCardProps } from '@/types/interfaces';
 import { cn } from '@/utils/cn';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
@@ -22,9 +22,10 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
     throw new Error(t('errorMsg', { id: id || '' }));
   }
 
-  const page = searchParams.get('page');
+  const params = new URLSearchParams(searchParams.toString());
+  params.set('details', pokemon.name);
 
-  const queryParams = page ? { page } : {};
+  const href = `?${params.toString()}`;
 
   const isChecked = selectedItems.includes(id);
 
@@ -62,10 +63,7 @@ export const SimpleCard = ({ pokemon }: SimpleCardProps) => {
           />
 
           <Link
-            href={{
-              pathname: `/details/${id}`,
-              query: queryParams,
-            }}
+            href={href}
             className="px-3 py-1 text-sm text-accent hover:bg-accent/10 rounded-2xl duration-300 cursor-pointer"
             onClick={(event) => event.stopPropagation()}
           >

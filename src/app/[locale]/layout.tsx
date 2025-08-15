@@ -1,10 +1,10 @@
 import { Providers } from '@/app/[locale]/providers';
 import { Container, Footer, Header } from '@/components';
-import type { Metadata } from 'next';
-import '../../globals.css';
 import { routing } from '@/i18n/routing';
+import type { Metadata } from 'next';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
+import '../../globals.css';
 
 export const metadata: Metadata = {
   title: 'Pokédex | Pokémon Search',
@@ -25,7 +25,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body>
+      <body suppressHydrationWarning={true}>
         <NextIntlClientProvider>
           <Providers>
             <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
