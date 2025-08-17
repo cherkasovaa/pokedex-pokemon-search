@@ -1,61 +1,83 @@
+'use client';
+
 import { Button, Pagination, Results, SearchBar } from '@/components';
 import { ITEMS_PER_PAGE } from '@/config/constants';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePokemonSearch } from '@/hooks/usePokemonSearch';
-import { APP_PATHS } from '@/types/router/constants';
+import { useRouter } from '@/i18n/navigation';
+import type { PokemonListProps } from '@/types/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState, type FormEvent } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 
-export const PokemonList = () => {
+export const PokemonList = ({
+  query,
+  currentPage,
+  initialData,
+}: PokemonListProps) => {
   const queryClient = useQueryClient();
+  const t = useTranslations('PokemonList');
 
-  const [query, setQuery] = useLocalStorage();
-  const [searchTerm, setSearchTerm] = useState(query);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const qFromUrl = (searchParams.get('q') ?? query).toLowerCase() || '';
+  const pageFromUrl = Number(searchParams.get('page') ?? currentPage) || 1;
+
+  const [input, setInput] = useState(qFromUrl);
+  useEffect(() => setInput(qFromUrl), [qFromUrl]);
 
   const { data, isLoading, error, isRefetching } = usePokemonSearch(
-    searchTerm,
-    currentPage
+    qFromUrl,
+    pageFromUrl,
+    initialData
   );
 
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({
+      queryKey: ['pokemons', qFromUrl, pageFromUrl],
+    });
+  };
+
   const totalPages = useMemo(() => {
-    return data ? Math.ceil(data.totalCount / ITEMS_PER_PAGE) : 0;
+    return data?.totalCount ? Math.ceil(data.totalCount / ITEMS_PER_PAGE) : 0;
   }, [data]);
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const searchTerm = query.trim().toLowerCase();
 
-    setSearchTerm(searchTerm);
+    const term = input.trim().toLowerCase();
 
-    navigate({
-      pathname: APP_PATHS.HOME,
-    });
+    const params = new URLSearchParams();
+
+    if (term) {
+      params.set('q', term);
+    } else {
+      params.delete('q');
+    }
+
+    params.delete('page');
+    params.delete('details');
+
+    router.push(`?${params.toString()}`);
   };
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString() });
-  };
-
-  const handleRefresh = () => {
-    queryClient.invalidateQueries({
-      queryKey: ['pokemons', searchTerm, currentPage],
-    });
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', newPage.toString());
+    router.push(`?${params.toString()}`);
   };
 
   return (
     <div className="h-full grid grid-rows-[auto_1fr_auto]">
       <div className="flex gap-3.5 py-2">
         <SearchBar
-          value={query}
-          onChange={setQuery}
+          value={input}
+          onChange={setInput}
           onSearch={handleSearchSubmit}
         />
 
-        <Button content="Refresh" onClick={handleRefresh} />
+        <Button content={t('refreshButton')} onClick={handleRefresh} />
       </div>
 
       <Results

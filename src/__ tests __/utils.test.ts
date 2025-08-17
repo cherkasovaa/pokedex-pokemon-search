@@ -1,10 +1,10 @@
+import { capitalize } from '@/utils/capitalize';
+import { cn } from '@/utils/cn';
+import { formatString } from '@/utils/formatString';
 import { parseLink } from '@/utils/parseLink';
 import { parseTag } from '@/utils/parseTag';
 import { parseTextToJSX } from '@/utils/parseTextToJSX';
 import { render, screen } from '@testing-library/react';
-import { capitalize } from '@utils/capitalize';
-import { cn } from '@utils/cn';
-import { formatString } from '@utils/formatString';
 import { describe, expect, test } from 'vitest';
 
 describe('Utils test', () => {

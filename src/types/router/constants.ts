@@ -6,7 +6,7 @@ export const APP_PATHS = {
 } as const;
 
 export const PAGE_NAMES = {
-  HOME: 'Home',
-  ABOUT: 'About',
+  HOME: 'home',
+  ABOUT: 'about',
   NOT_FOUND: '404',
 } as const;

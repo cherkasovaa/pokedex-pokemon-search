@@ -1,12 +1,13 @@
 import { getAllPokemons } from '@/api/getAllPokemons';
 import { getPokemonByName } from '@/api/getPokemonByName';
-import type { Pokemon, PokemonDetails } from '@/types/interfaces';
+import { ITEMS_PER_PAGE } from '@/config/constants';
+import type { PokemonListData } from '@/types/interfaces';
 
 export const searchPokemon = async (
   searchTerm: string,
   page = 1,
-  limitPerPage: number
-): Promise<{ results: (Pokemon | PokemonDetails)[]; totalCount: number }> => {
+  limitPerPage = ITEMS_PER_PAGE
+): Promise<PokemonListData> => {
   try {
     if (searchTerm) {
       const pokemonDetails = await getPokemonByName(searchTerm);

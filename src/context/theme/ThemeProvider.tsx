@@ -1,6 +1,7 @@
-import { THEME_LS_KEY } from '@/context/theme/constants';
+'use client';
+
+import { THEME_COOKIES_KEY } from '@/context/theme/constants';
 import { ThemeContext } from '@/context/theme/themeContext';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import {
   THEME_MODE,
   type Theme,
@@ -12,12 +13,13 @@ export const ThemeProvider = ({
   children,
   defaultTheme = THEME_MODE.SYSTEM,
 }: ThemeProviderProps) => {
-  const [themeLS, setThemeLS] = useLocalStorage(THEME_LS_KEY);
-  const [theme, setTheme] = useState<Theme>((themeLS as Theme) || defaultTheme);
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove(THEME_MODE.LIGHT, THEME_MODE.DARK);
+
+    document.cookie = `${THEME_COOKIES_KEY}=${theme};path=/;max-age=31536000`;
 
     if (theme === THEME_MODE.SYSTEM) {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
@@ -35,7 +37,6 @@ export const ThemeProvider = ({
   const value = {
     theme,
     setTheme: (newTheme: Theme) => {
-      setThemeLS(newTheme);
       setTheme(newTheme);
     },
   };

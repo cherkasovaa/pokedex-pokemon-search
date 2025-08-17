@@ -1,14 +1,16 @@
 import type { SearchInputFieldProps } from '@/types/interfaces';
+import { useTranslations } from 'next-intl';
 
 export const SearchInputField = ({
   value,
   onChange,
 }: SearchInputFieldProps) => {
+  const t = useTranslations('SearchBar');
   return (
     <input
       type="text"
       name="search"
-      placeholder="Input something to search..."
+      placeholder={t('inputPlaceholder')}
       aria-label="Search input field"
       value={value}
       onChange={onChange}

@@ -1,5 +1,5 @@
 import type { Pokemon, PokemonDetails } from '@/types/interfaces';
-import { Outlet } from 'react-router';
+// import { Outlet } from 'react-router';
 
 export const SearchBarMock = ({
   onSearch,
@@ -56,11 +56,11 @@ export const CardListMock = ({ results }: { results: [] }) => (
   <div data-testid="card-list">{results.length}</div>
 );
 
-export const HomePageMock = () => (
-  <div data-testid="home-page">
-    Home Page <Outlet />
-  </div>
-);
+// export const HomePageMock = () => (
+//   <div data-testid="home-page">
+//     Home Page <Outlet />
+//   </div>
+// );
 
 export const AboutPageMock = () => (
   <div data-testid="about-page">About Page</div>

@@ -1,7 +1,12 @@
+'use client';
+
 import { CardList, ErrorMessage, Flyout, Loader } from '@/components/';
 import type { ResultsProps } from '@/types/interfaces';
+import { useTranslations } from 'next-intl';
 
 export const Results = ({ results, isLoading, error }: ResultsProps) => {
+  const t = useTranslations('Results');
+
   return (
     <div className="h-full p-4 flex flex-col overflow-hidden">
       <div className="flex-grow">
@@ -10,7 +15,7 @@ export const Results = ({ results, isLoading, error }: ResultsProps) => {
 
         {!isLoading && !error && results?.length === 0 && (
           <p className="text-2xl text-foreground-muted text-center">
-            There is no data to display. Try again
+            {t('noDataMsg')}
           </p>
         )}
 

@@ -1,0 +1,46 @@
+{
+  "NotFoundPage": {
+    "title": "Page Not Found",
+    "buttonHomeBack": "Back to Home"
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About"
+  },
+  "DetailsPanel": {
+    "closeButton": "Close",
+    "notFound": "Pokemon with ID '{id}' not found."
+  },
+  "AboutPage": {
+    "title": "Pokédex: About the Project",
+    "text": "<p>Hi! I'm Alina. <highlight>I’m glad you’re here</highlight>!</p><p>Welcome to my small pet-project - <highlight>Pokédex: Pokémon Search</highlight>! This web application was created in July 2025 as part of my studies in the <rsslink>RS School React course</rsslink>. The project was <highlight>built with enthusiasm and a love</highlight> for web design and modern technologies.</p><p>The core of the app is built with <highlight>React</highlight> and <highlight>TypeScript</highlight>. I used <highlight>Tailwind CSS</highlight> to create an elegant and responsive design. The entire development, testing, and build process was fast and efficient thanks to <highlight>Vite and Vitest</highlight>, and later the project was migrated to <highlight>Next.js</highlight>. Finally, everything is easily deployed online with <highlight>Vercel</highlight>.</p><p>If you’d like to see what else I’m working on, <highlight>feel free to check out</highlight> my <portfolio>portfolio</portfolio> or browse my other projects on <github>GitHub</github>.</p><p>I hope you enjoyed it! <highlight>Thank you for stopping by</highlight>!</p>"
+  },
+  "Flyout": {
+    "itemsSelected": "{count, plural, one {# item is selected} other {# items are selected}}",
+    "unselectAllButton": "Unselect all",
+    "downloadButton": "{state, select, loading {Downloading...} other {Download}}",
+    "downloadError": "Failed to download pokemon data: "
+  },
+  "ErrorMessage": {
+    "title": "Something went wrong",
+    "defaultMessage": "An unexpected error occurred. Please try again later"
+  },
+  "Footer": {
+    "creatorName": "Alina Cherkasova"
+  },
+  "Results": {
+    "noDataMsg": "There is no data to display. Try again"
+  },
+  "SearchBar": {
+    "searchButton": "Search",
+    "inputPlaceholder": "Input something to search..."
+  },
+  "SimpleCard": {
+    "description": "Pokemon #{id}",
+    "detailsButton": "Details",
+    "errorMsg": "ID {id} not found"
+  },
+  "PokemonList": {
+    "refreshButton": "Refresh"
+  }
+}
