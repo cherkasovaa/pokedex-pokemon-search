@@ -43,7 +43,7 @@ export interface ButtonProps extends WithClasses {
 }
 
 export interface ErrorMessageProps {
-  message: string | null;
+  message: string | null | undefined;
 }
 
 export interface CardListProps {
