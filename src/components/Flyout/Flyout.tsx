@@ -1,9 +1,7 @@
 'use client';
 
-import { useSelectedPokemons } from '@/hooks/useSelectedPokemons';
 import { useSelectedStore } from '@/store/store';
 import { cn } from '@/utils/cn';
-import { exportToCsv } from '@/utils/exportToCsv';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
@@ -14,19 +12,16 @@ export const Flyout = () => {
   const selectedItems = useSelectedStore((state) => state.selectedItems);
   const unselectAllItems = useSelectedStore((state) => state.unselectAllItems);
 
-  const { data: pokemonDetails } = useSelectedPokemons(selectedItems);
-
   const count = selectedItems.length;
 
   const handleDownload = async () => {
-    if (count === 0 || isLoading || !pokemonDetails) return;
+    if (count === 0 || isLoading) return;
+
+    setIsLoading(true);
 
     try {
-      setIsLoading(true);
-
-      if (pokemonDetails.length > 0) {
-        exportToCsv(pokemonDetails);
-      }
+      const idsQueryParam = selectedItems.join(',');
+      window.open(`/api/export?ids=${idsQueryParam}`, '_blank');
     } catch (error) {
       const msg = error instanceof Error ? error.message : String(error);
       throw new Error(t('downloadError') + msg);
